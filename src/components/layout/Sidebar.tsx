@@ -9,7 +9,6 @@ import {
   Plus,
   ShoppingCart,
   BarChart3,
-  Truck,
   Settings,
   Box,
 } from "lucide-react"
@@ -20,7 +19,6 @@ const navigation = [
   { name: "Ajouter", href: "/add", icon: Plus },
   { name: "Ventes", href: "/sales", icon: ShoppingCart },
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
-  { name: "Amazon", href: "/amazon", icon: Truck },
   { name: "Paramètres", href: "/settings", icon: Settings },
 ]
 

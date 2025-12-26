@@ -14,7 +14,6 @@ import {
   Link as LinkIcon,
   Palette,
   Download,
-  Upload,
   Save,
   Github,
   ExternalLink,
@@ -53,16 +52,14 @@ export default function SettingsPage() {
 
   const handleExport = async () => {
     try {
-      const [productsRes, salesRes, amazonRes] = await Promise.all([
+      const [productsRes, salesRes] = await Promise.all([
         fetch("/api/products"),
         fetch("/api/sales"),
-        fetch("/api/amazon"),
       ])
 
       const data = {
         products: await productsRes.json(),
         sales: await salesRes.json(),
-        amazonOrders: await amazonRes.json(),
         exportDate: new Date().toISOString(),
       }
 
@@ -78,26 +75,6 @@ export default function SettingsPage() {
     } catch (error) {
       console.error(error)
       toast({ title: "Erreur d'export", variant: "destructive" })
-    }
-  }
-
-  const handleImportNotion = async () => {
-    try {
-      const res = await fetch("/api/import", { method: "POST" })
-      const data = await res.json()
-
-      if (res.ok) {
-        toast({
-          title: "Import réussi !",
-          description: `${data.results.productsImported} produits, ${data.results.amazonOrdersImported} commandes Amazon`,
-          variant: "success",
-        })
-      } else {
-        toast({ title: "Erreur", description: data.error, variant: "destructive" })
-      }
-    } catch (error) {
-      console.error(error)
-      toast({ title: "Erreur d'import", variant: "destructive" })
     }
   }
 
@@ -269,22 +246,16 @@ export default function SettingsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Import / Export</CardTitle>
-            <CardDescription>Gérez vos données</CardDescription>
+            <CardTitle>Export</CardTitle>
+            <CardDescription>Exportez vos données</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button onClick={handleImportNotion} variant="outline" className="gap-2 flex-1">
-                <Upload className="h-4 w-4" />
-                Importer depuis Notion
-              </Button>
-              <Button onClick={handleExport} variant="outline" className="gap-2 flex-1">
-                <Download className="h-4 w-4" />
-                Exporter en JSON
-              </Button>
-            </div>
+            <Button onClick={handleExport} variant="outline" className="gap-2">
+              <Download className="h-4 w-4" />
+              Exporter en JSON
+            </Button>
             <p className="text-sm text-zinc-500">
-              L&apos;import Notion scanne automatiquement le dossier /Notion et importe les fichiers .md et .csv.
+              Exportez tous vos produits et ventes en fichier JSON.
             </p>
           </CardContent>
         </Card>
