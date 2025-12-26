@@ -1,8 +1,7 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { LucideIcon } from "lucide-react"
+import { LucideIcon, TrendingUp, TrendingDown } from "lucide-react"
 
 interface StatsCardProps {
   title: string
@@ -13,6 +12,7 @@ interface StatsCardProps {
     value: number
     isPositive: boolean
   }
+  iconColor?: string
   className?: string
 }
 
@@ -22,37 +22,53 @@ export function StatsCard({
   subtitle,
   icon: Icon,
   trend,
+  iconColor = "text-violet-400",
   className,
 }: StatsCardProps) {
   return (
-    <Card className={cn("overflow-hidden", className)}>
-      <CardContent className="p-6">
+    <div className={cn(
+      "group relative overflow-hidden rounded-xl border border-zinc-800/50 bg-zinc-900/50 p-5 transition-all duration-300 hover:border-zinc-700/50 hover:bg-zinc-900/80",
+      className
+    )}>
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+      
+      <div className="relative">
         <div className="flex items-start justify-between">
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-zinc-400">{title}</p>
-            <p className="text-3xl font-bold text-white">{value}</p>
-            {subtitle && (
-              <p className="text-sm text-zinc-500">{subtitle}</p>
-            )}
-            {trend && (
-              <div className="flex items-center gap-1">
-                <span
-                  className={cn(
-                    "text-sm font-medium",
-                    trend.isPositive ? "text-green-500" : "text-red-500"
-                  )}
-                >
-                  {trend.isPositive ? "+" : ""}{trend.value}%
-                </span>
-                <span className="text-xs text-zinc-500">vs mois dernier</span>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium text-zinc-400">{title}</p>
+              <div className={cn(
+                "flex h-7 w-7 items-center justify-center rounded-lg",
+                "bg-zinc-800/50"
+              )}>
+                <Icon className={cn("h-4 w-4", iconColor)} />
               </div>
-            )}
+            </div>
+            <p className="text-2xl font-bold tracking-tight text-white">{value}</p>
           </div>
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-            <Icon className="h-6 w-6 text-primary" />
-          </div>
+          
+          {trend && (
+            <div className={cn(
+              "flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium",
+              trend.isPositive 
+                ? "bg-emerald-500/10 text-emerald-400" 
+                : "bg-red-500/10 text-red-400"
+            )}>
+              {trend.isPositive ? (
+                <TrendingUp className="h-3 w-3" />
+              ) : (
+                <TrendingDown className="h-3 w-3" />
+              )}
+              {trend.isPositive ? "+" : ""}{trend.value}%
+            </div>
+          )}
         </div>
-      </CardContent>
-    </Card>
+        
+        {subtitle && (
+          <p className="mt-2 text-xs text-zinc-500">{subtitle}</p>
+        )}
+      </div>
+    </div>
   )
 }

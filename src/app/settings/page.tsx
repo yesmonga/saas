@@ -80,7 +80,7 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen">
-      <Header title="Paramètres" showAddButton={false} showSearch={false} />
+      <Header title="Paramètres" showAddButton={false} />
       <div className="p-6 space-y-6 max-w-4xl">
         <Card>
           <CardHeader>

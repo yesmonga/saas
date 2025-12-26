@@ -1,74 +1,57 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Plus, Search, Moon, Sun, Bell } from "lucide-react"
+import { Plus, Bell, User, ChevronRight } from "lucide-react"
 
 interface HeaderProps {
   title?: string
-  showSearch?: boolean
   showAddButton?: boolean
 }
 
-export function Header({ title, showSearch = true, showAddButton = true }: HeaderProps) {
-  const [isDark, setIsDark] = useState(true)
+const pageTitles: Record<string, string> = {
+  "/": "Dashboard",
+  "/inventory": "Inventaire",
+  "/add": "Ajouter un produit",
+  "/sales": "Ventes",
+  "/analytics": "Analytics",
+  "/settings": "Paramètres",
+}
 
-  const today = new Date().toLocaleDateString("fr-FR", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  })
+export function Header({ title, showAddButton = true }: HeaderProps) {
+  const pathname = usePathname()
+  const pageTitle = title || pageTitles[pathname] || "Dashboard"
 
   return (
-    <header className="sticky top-0 z-30 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm">
-      <div className="flex h-16 items-center justify-between px-6">
-        <div className="flex items-center gap-4">
-          <div>
-            <h1 className="text-xl font-semibold text-white">
-              {title || "Bonjour Alex 👋"}
-            </h1>
-            <p className="text-sm text-zinc-500 capitalize">{today}</p>
+    <header className="sticky top-0 z-30 border-b border-zinc-800/50 bg-[#0a0a0a]/80 backdrop-blur-md">
+      <div className="flex h-14 items-center justify-between px-6">
+        <div className="flex items-center gap-3">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-zinc-500">ResellHub</span>
+            <ChevronRight className="h-4 w-4 text-zinc-600" />
+            <span className="font-medium text-white">{pageTitle}</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          {showSearch && (
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
-              <Input
-                placeholder="Rechercher..."
-                className="w-64 pl-9"
-              />
-            </div>
-          )}
+        <div className="flex items-center gap-2">
+          {/* Notification */}
+          <button className="relative flex h-9 w-9 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white">
+            <Bell className="h-4 w-4" />
+            <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-violet-500" />
+          </button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative"
-          >
-            <Bell className="h-5 w-5" />
-            <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
-              3
-            </span>
-          </Button>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsDark(!isDark)}
-          >
-            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </Button>
+          {/* User avatar */}
+          <button className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 text-white">
+            <User className="h-4 w-4" />
+          </button>
 
           {showAddButton && (
             <Link href="/add">
-              <Button className="gap-2">
+              <Button size="sm" className="ml-2 gap-1.5 bg-violet-600 hover:bg-violet-700">
                 <Plus className="h-4 w-4" />
-                Ajouter un produit
+                Nouveau
               </Button>
             </Link>
           )}

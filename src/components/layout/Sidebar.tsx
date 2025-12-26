@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 import {
   LayoutDashboard,
@@ -11,32 +12,53 @@ import {
   BarChart3,
   Settings,
   Box,
+  Search,
+  ChevronDown,
+  Sparkles,
 } from "lucide-react"
 
-const navigation = [
+const mainNav = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Inventaire", href: "/inventory", icon: Package },
   { name: "Ajouter", href: "/add", icon: Plus },
   { name: "Ventes", href: "/sales", icon: ShoppingCart },
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
-  { name: "Paramètres", href: "/settings", icon: Settings },
+]
+
+const categories = [
+  { name: "Pokemon", color: "#FFCB05" },
+  { name: "Pop Mart", color: "#FF6B9D" },
+  { name: "Sneakers", color: "#4ECDC4" },
+  { name: "Figurines", color: "#9B59B6" },
 ]
 
 export function Sidebar() {
   const pathname = usePathname()
+  const [categoriesOpen, setCategoriesOpen] = useState(true)
 
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-zinc-800 bg-zinc-950">
+    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-zinc-800/50 bg-[#0a0a0a]">
       <div className="flex h-full flex-col">
-        <div className="flex h-16 items-center gap-3 border-b border-zinc-800 px-6">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
-            <Box className="h-6 w-6 text-white" />
+        {/* Logo */}
+        <div className="flex h-16 items-center gap-3 px-5">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 shadow-lg shadow-violet-500/20">
+            <Box className="h-5 w-5 text-white" />
           </div>
-          <span className="text-xl font-bold text-white">ResellHub</span>
+          <span className="text-lg font-semibold text-white">ResellHub</span>
         </div>
 
-        <nav className="flex-1 space-y-1 px-3 py-4">
-          {navigation.map((item) => {
+        {/* Search */}
+        <div className="px-3 pb-2">
+          <div className="flex items-center gap-2 rounded-lg bg-zinc-900/50 px-3 py-2 text-zinc-500 transition-colors hover:bg-zinc-800/50">
+            <Search className="h-4 w-4" />
+            <span className="text-sm">Rechercher...</span>
+            <kbd className="ml-auto rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] font-medium text-zinc-400">⌘K</kbd>
+          </div>
+        </div>
+
+        {/* Main Navigation */}
+        <nav className="flex-1 space-y-1 px-3 py-2">
+          {mainNav.map((item) => {
             const isActive = pathname === item.href || 
               (item.href !== "/" && pathname.startsWith(item.href))
             
@@ -45,23 +67,83 @@ export function Sidebar() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
+                  "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
                   isActive
-                    ? "bg-primary text-white"
-                    : "text-zinc-400 hover:bg-zinc-800 hover:text-white"
+                    ? "bg-zinc-800/80 text-white"
+                    : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
                 )}
               >
-                <item.icon className="h-5 w-5" />
+                <item.icon className={cn(
+                  "h-4 w-4 transition-colors",
+                  isActive ? "text-violet-400" : "text-zinc-500 group-hover:text-zinc-300"
+                )} />
                 {item.name}
+                {isActive && (
+                  <div className="ml-auto h-1.5 w-1.5 rounded-full bg-violet-400" />
+                )}
               </Link>
             )
           })}
+
+          {/* Categories Section */}
+          <div className="pt-4">
+            <button
+              onClick={() => setCategoriesOpen(!categoriesOpen)}
+              className="flex w-full items-center gap-2 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 hover:text-zinc-300"
+            >
+              <ChevronDown className={cn(
+                "h-3 w-3 transition-transform",
+                !categoriesOpen && "-rotate-90"
+              )} />
+              Catégories
+            </button>
+            
+            {categoriesOpen && (
+              <div className="mt-1 space-y-0.5">
+                {categories.map((cat) => (
+                  <Link
+                    key={cat.name}
+                    href={`/inventory?category=${cat.name}`}
+                    className="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-zinc-400 transition-all hover:bg-zinc-800/50 hover:text-white"
+                  >
+                    <div 
+                      className="h-2 w-2 rounded-full" 
+                      style={{ backgroundColor: cat.color }}
+                    />
+                    {cat.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Settings at bottom of nav */}
+          <div className="pt-4 border-t border-zinc-800/50 mt-4">
+            <Link
+              href="/settings"
+              className={cn(
+                "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
+                pathname === "/settings"
+                  ? "bg-zinc-800/80 text-white"
+                  : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
+              )}
+            >
+              <Settings className="h-4 w-4 text-zinc-500 group-hover:text-zinc-300" />
+              Paramètres
+            </Link>
+          </div>
         </nav>
 
-        <div className="border-t border-zinc-800 p-4">
-          <div className="rounded-xl bg-zinc-900 p-4">
-            <p className="text-xs text-zinc-500">Version</p>
-            <p className="text-sm font-medium text-zinc-300">1.0.0</p>
+        {/* Bottom Card */}
+        <div className="p-3">
+          <div className="rounded-xl bg-gradient-to-br from-violet-500/10 to-purple-500/10 border border-violet-500/20 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="h-4 w-4 text-violet-400" />
+              <span className="text-sm font-medium text-white">Pro Tips</span>
+            </div>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              Utilisez les raccourcis clavier pour naviguer plus rapidement.
+            </p>
           </div>
         </div>
       </div>
