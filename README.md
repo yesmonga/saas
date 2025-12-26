@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ResellHub - Gestion de Stock pour Achat-Revente
 
-## Getting Started
+Application SaaS complète de gestion de stock pour l'activité d'achat-revente (Pokémon, Collectibles, Sneakers, Figurines, Vêtements).
 
-First, run the development server:
+## Fonctionnalités
+
+- **Dashboard** - KPIs en temps réel, graphiques de ventes, alertes
+- **Inventaire** - Vue grille/liste, filtres avancés, recherche
+- **Gestion produits** - CRUD complet avec calcul de marge automatique
+- **Ventes** - Historique, enregistrement avec calcul de bénéfice net
+- **Analytics** - Graphiques avancés, performance par catégorie, ROI
+- **Amazon Orders** - Suivi des commandes, comptes bannis
+- **Import Notion** - Import automatique des fichiers .md et .csv
+- **Dark mode** - Interface moderne et élégante
+
+## Stack Technique
+
+- **Frontend**: Next.js 14 (App Router), TypeScript, TailwindCSS
+- **UI**: shadcn/ui, Lucide Icons, Recharts
+- **Backend**: Next.js API Routes
+- **Database**: SQLite avec Prisma ORM
+- **State**: Zustand
+
+## Installation
 
 ```bash
+# Cloner le repo
+git clone https://github.com/yesmonga/saas.git
+cd resellhub
+
+# Installer les dépendances
+npm install
+
+# Configurer la base de données
+npx prisma migrate dev
+
+# Lancer en développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Import des données Notion
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Placez votre dossier `Notion` exporté dans le dossier parent du projet
+2. Cliquez sur "Importer Notion" dans le Dashboard
+3. Les fichiers `.md` et `.csv` seront automatiquement parsés
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure du projet
 
-## Learn More
+```
+/src
+  /app                 # Pages Next.js (App Router)
+    /api               # Routes API
+    /inventory         # Page inventaire
+    /add               # Ajout produit
+    /edit/[id]         # Édition produit
+    /sales             # Ventes
+    /analytics         # Analytics
+    /amazon            # Commandes Amazon
+    /settings          # Paramètres
+  /components
+    /ui                # Composants shadcn/ui
+    /layout            # Sidebar, Header
+    /dashboard         # Composants dashboard
+  /lib                 # Utilitaires, Prisma client
+  /types               # Types TypeScript
+  /data                # Données statiques
+/prisma                # Schema et migrations
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Déploiement
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Vercel (Recommandé)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+# Déployer sur Vercel
+```
 
-## Deploy on Vercel
+### Netlify
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+# Déployer le dossier .next
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Configuration
+
+Variables d'environnement (`.env`):
+
+```env
+DATABASE_URL="file:./dev.db"
+```
+
+## Catégories par défaut
+
+- Pokemon
+- Pop Mart
+- Sneakers
+- Figurines & Collectibles
+- Vêtements
+- Vinyles & Musique
+- Jouets & Poupées
+- Trading Cards
+- Accessoires
+- Mattel
+- Lorcana
+- Autres
+
+## Auteur
+
+**Alex** - [Profil Vinted](https://www.vinted.fr/member/14582133)
+
+## License
+
+MIT

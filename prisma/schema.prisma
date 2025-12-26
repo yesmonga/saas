@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id              String   @id @default(uuid())
+  title           String
+  description     String?
+  photos          String   @default("[]")
+  category        String
+  subcategory     String?
+  brand           String?
+  condition       String   @default("new_with_tags")
+  
+  purchasePrice   Float
+  additionalFees  Float    @default(0)
+  totalCost       Float
+  sellingPrice    Float    @default(0)
+  margin          Float    @default(0)
+  marginPercent   Float    @default(0)
+  
+  status          String   @default("in_stock")
+  
+  vintedUrl       String?
+  vintedViews     Int      @default(0)
+  vintedFavorites Int      @default(0)
+  vintedListedAt  DateTime?
+  ebayUrl         String?
+  leboncoinUrl    String?
+  beebsUrl        String?
+  
+  purchaseDate    DateTime?
+  purchaseSource  String?
+  dateHome        DateTime?
+  notes           String?
+  tags            String   @default("[]")
+  
+  amazonEmail     String?
+  amazonOrderId   String?
+  amazonStatus    String?
+  
+  notionId        String?  @unique
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  sales           Sale[]
+}
+
+model Sale {
+  id            String   @id @default(uuid())
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  saleDate      DateTime
+  finalPrice    Float
+  platformFees  Float    @default(0)
+  shippingCost  Float    @default(0)
+  netProfit     Float
+  platform      String
+  buyerName     String?
+  notes         String?
+  
+  createdAt     DateTime @default(now())
+}
+
+model AmazonOrder {
+  id            String   @id @default(uuid())
+  email         String
+  productName   String
+  price         Float
+  purchaseDate  DateTime?
+  isBanned      Boolean  @default(false)
+  isPaid        Boolean  @default(false)
+  isShipped     Boolean  @default(false)
+  status        String?
+  orderId       String?
+  productId     String?
+  
+  createdAt     DateTime @default(now())
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  color     String
+  icon      String?
+  
+  createdAt DateTime @default(now())
+}
+
+model Settings {
+  id                    String  @id @default("default")
+  userName              String  @default("Alex")
+  userEmail             String?
+  vintedProfile         String?
+  ebayProfile           String?
+  githubRepo            String?
+  theme                 String  @default("dark")
+  language              String  @default("fr")
+  currency              String  @default("EUR")
+  defaultVintedFees     Float   @default(5)
+  defaultEbayFees       Float   @default(10)
+  defaultLeboncoinFees  Float   @default(0)
+  defaultBeebsFees      Float   @default(8)
+}
