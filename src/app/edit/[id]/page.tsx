@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { formatCurrency } from "@/lib/utils"
-import { Save, ArrowLeft, Trash2 } from "lucide-react"
+import { Save, ArrowLeft, Trash2, DollarSign, X } from "lucide-react"
 import Link from "next/link"
 import type { Product } from "@/types"
 
@@ -35,12 +35,12 @@ const conditions = [
   { value: "satisfactory", label: "Satisfaisant" },
 ]
 
-const statuses = [
-  { value: "draft", label: "Brouillon" },
-  { value: "in_stock", label: "En stock" },
-  { value: "listed", label: "En vente" },
-  { value: "reserved", label: "Réservé" },
-  { value: "sold", label: "Vendu" },
+const platforms = [
+  { value: "vinted", label: "Vinted" },
+  { value: "ebay", label: "eBay" },
+  { value: "leboncoin", label: "Leboncoin" },
+  { value: "beebs", label: "Beebs" },
+  { value: "autre", label: "Autre" },
 ]
 
 export default function EditProductPage() {
@@ -49,6 +49,15 @@ export default function EditProductPage() {
   const { toast } = useToast()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [showSaleModal, setShowSaleModal] = useState(false)
+  const [saleData, setSaleData] = useState({
+    finalPrice: 0,
+    platformFees: 0,
+    shippingCost: 0,
+    platform: "vinted",
+    saleDate: new Date().toISOString().split("T")[0],
+    buyerName: "",
+  })
 
   const [formData, setFormData] = useState({
     title: "",
@@ -169,6 +178,43 @@ export default function EditProductPage() {
     }
   }
 
+  const handleSale = async () => {
+    const netProfit = saleData.finalPrice - totalCost - saleData.platformFees - saleData.shippingCost
+
+    try {
+      const res = await fetch("/api/sales", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: params.id,
+          saleDate: saleData.saleDate,
+          finalPrice: saleData.finalPrice,
+          platformFees: saleData.platformFees,
+          shippingCost: saleData.shippingCost,
+          netProfit,
+          platform: saleData.platform,
+          buyerName: saleData.buyerName,
+        }),
+      })
+
+      if (res.ok) {
+        await fetch(`/api/products/${params.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...formData, status: "sold" }),
+        })
+
+        toast({ title: "Vente enregistrée !", variant: "success" })
+        router.push("/sales")
+      } else {
+        toast({ title: "Erreur", description: "Impossible d'enregistrer la vente", variant: "destructive" })
+      }
+    } catch (error) {
+      console.error(error)
+      toast({ title: "Erreur", variant: "destructive" })
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -231,15 +277,6 @@ export default function EditProductPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2">
-                  <Label>Statut</Label>
-                  <Select value={formData.status} onValueChange={(v) => setFormData({ ...formData, status: v })}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {statuses.map((s) => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
               </div>
             </CardContent>
           </Card>
@@ -272,25 +309,6 @@ export default function EditProductPage() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader><CardTitle>Stats Vinted</CardTitle></CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Label>Lien Vinted</Label>
-                  <Input value={formData.vintedUrl} onChange={(e) => setFormData({ ...formData, vintedUrl: e.target.value })} />
-                </div>
-                <div className="space-y-2">
-                  <Label>Vues</Label>
-                  <Input type="number" value={formData.vintedViews} onChange={(e) => setFormData({ ...formData, vintedViews: parseInt(e.target.value) || 0 })} />
-                </div>
-                <div className="space-y-2">
-                  <Label>Favoris</Label>
-                  <Input type="number" value={formData.vintedFavorites} onChange={(e) => setFormData({ ...formData, vintedFavorites: parseInt(e.target.value) || 0 })} />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
 
           <Card>
             <CardHeader><CardTitle>Dates</CardTitle></CardHeader>
@@ -312,14 +330,116 @@ export default function EditProductPage() {
             </CardContent>
           </Card>
 
-          <div className="flex justify-end gap-4">
-            <Link href="/inventory"><Button variant="outline">Annuler</Button></Link>
-            <Button type="submit" disabled={saving} className="gap-2">
-              <Save className="h-4 w-4" />
-              {saving ? "Enregistrement..." : "Enregistrer"}
+          <div className="flex justify-between gap-4">
+            <Button
+              type="button"
+              onClick={() => setShowSaleModal(true)}
+              className="gap-2 bg-emerald-600 hover:bg-emerald-700"
+            >
+              <DollarSign className="h-4 w-4" />
+              Marquer comme vendu
             </Button>
+            <div className="flex gap-4">
+              <Link href="/inventory"><Button variant="outline">Annuler</Button></Link>
+              <Button type="submit" disabled={saving} className="gap-2">
+                <Save className="h-4 w-4" />
+                {saving ? "Enregistrement..." : "Enregistrer"}
+              </Button>
+            </div>
           </div>
         </form>
+
+        {/* Sale Modal */}
+        {showSaleModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+            <div className="w-full max-w-md rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-xl font-bold text-white">Enregistrer la vente</h2>
+                <Button variant="ghost" size="icon" onClick={() => setShowSaleModal(false)}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label>Prix de vente final (€)</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={saleData.finalPrice || ""}
+                    onChange={(e) => setSaleData({ ...saleData, finalPrice: parseFloat(e.target.value) || 0 })}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Frais plateforme (€)</Label>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      value={saleData.platformFees || ""}
+                      onChange={(e) => setSaleData({ ...saleData, platformFees: parseFloat(e.target.value) || 0 })}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Frais livraison (€)</Label>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      value={saleData.shippingCost || ""}
+                      onChange={(e) => setSaleData({ ...saleData, shippingCost: parseFloat(e.target.value) || 0 })}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Plateforme</Label>
+                  <Select value={saleData.platform} onValueChange={(v) => setSaleData({ ...saleData, platform: v })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {platforms.map((p) => <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Date de vente</Label>
+                  <Input
+                    type="date"
+                    value={saleData.saleDate}
+                    onChange={(e) => setSaleData({ ...saleData, saleDate: e.target.value })}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Nom acheteur (optionnel)</Label>
+                  <Input
+                    value={saleData.buyerName}
+                    onChange={(e) => setSaleData({ ...saleData, buyerName: e.target.value })}
+                  />
+                </div>
+
+                <div className="rounded-lg bg-zinc-800/50 p-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-zinc-400">Bénéfice net estimé:</span>
+                    <span className="font-bold text-emerald-400">
+                      {formatCurrency(saleData.finalPrice - totalCost - saleData.platformFees - saleData.shippingCost)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <Button variant="outline" onClick={() => setShowSaleModal(false)} className="flex-1">
+                    Annuler
+                  </Button>
+                  <Button onClick={handleSale} className="flex-1 bg-emerald-600 hover:bg-emerald-700">
+                    Confirmer la vente
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

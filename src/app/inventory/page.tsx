@@ -6,7 +6,6 @@ import { Header } from "@/components/layout/Header"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
 import {
   Select,
   SelectContent,
@@ -14,28 +13,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { formatCurrency, getStatusColor, getStatusLabel, formatDate, getMarginColor } from "@/lib/utils"
+import { formatCurrency, formatDate } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import type { Product } from "@/types"
 import {
   Search,
   Grid3X3,
   List,
-  Eye,
-  Heart,
   Plus,
   Pencil,
   Trash2,
 } from "lucide-react"
-
-const statuses = [
-  { value: "all", label: "Tous les statuts" },
-  { value: "draft", label: "Brouillon" },
-  { value: "in_stock", label: "En stock" },
-  { value: "listed", label: "En vente" },
-  { value: "reserved", label: "Réservé" },
-  { value: "sold", label: "Vendu" },
-]
 
 const categories = [
   { value: "all", label: "Toutes les catégories" },
@@ -44,6 +32,9 @@ const categories = [
   { value: "Sneakers", label: "Sneakers" },
   { value: "Figurines & Collectibles", label: "Figurines & Collectibles" },
   { value: "Vêtements", label: "Vêtements" },
+  { value: "Lorcana", label: "Lorcana" },
+  { value: "Trading Cards", label: "Trading Cards" },
+  { value: "Mattel", label: "Mattel" },
   { value: "Accessoires", label: "Accessoires" },
   { value: "Autres", label: "Autres" },
 ]
@@ -53,14 +44,13 @@ export default function InventoryPage() {
   const [loading, setLoading] = useState(true)
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [search, setSearch] = useState("")
-  const [statusFilter, setStatusFilter] = useState("all")
   const [categoryFilter, setCategoryFilter] = useState("all")
   const { toast } = useToast()
 
   const fetchProducts = useCallback(async () => {
     try {
       const params = new URLSearchParams()
-      if (statusFilter !== "all") params.set("status", statusFilter)
+      params.set("status", "in_stock")
       if (categoryFilter !== "all") params.set("category", categoryFilter)
       if (search) params.set("search", search)
 
@@ -74,7 +64,7 @@ export default function InventoryPage() {
     } finally {
       setLoading(false)
     }
-  }, [statusFilter, categoryFilter, search])
+  }, [categoryFilter, search])
 
   const handleDelete = async (id: string) => {
     if (!confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) return
@@ -103,8 +93,6 @@ export default function InventoryPage() {
     fetchProducts()
   }, [fetchProducts])
 
-  const filteredProducts = products
-
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -128,18 +116,6 @@ export default function InventoryPage() {
                 className="pl-9"
               />
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Statut" />
-              </SelectTrigger>
-              <SelectContent>
-                {statuses.map((status) => (
-                  <SelectItem key={status.value} value={status.value}>
-                    {status.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
             <Select value={categoryFilter} onValueChange={setCategoryFilter}>
               <SelectTrigger className="w-[200px]">
                 <SelectValue placeholder="Catégorie" />
@@ -174,7 +150,7 @@ export default function InventoryPage() {
 
         <div className="flex items-center justify-between">
           <p className="text-sm text-zinc-400">
-            {filteredProducts.length} produit{filteredProducts.length > 1 ? "s" : ""}
+            {products.length} produit{products.length > 1 ? "s" : ""} en stock
           </p>
           <Link href="/add">
             <Button className="gap-2">
@@ -186,13 +162,10 @@ export default function InventoryPage() {
 
         {viewMode === "grid" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredProducts.map((product) => (
-              <Card key={product.id} className="overflow-hidden group">
+            {products.map((product) => (
+              <Card key={product.id} className="overflow-hidden group hover:border-zinc-700 transition-colors">
                 <div className="relative aspect-square bg-zinc-800 flex items-center justify-center text-6xl">
                   📦
-                  <Badge className={`absolute top-3 right-3 ${getStatusColor(product.status)}`}>
-                    {getStatusLabel(product.status)}
-                  </Badge>
                 </div>
                 <CardContent className="p-4 space-y-3">
                   <div>
@@ -209,28 +182,10 @@ export default function InventoryPage() {
                         Achat: {formatCurrency(product.purchasePrice)}
                       </p>
                     </div>
-                    <div className={`text-right ${getMarginColor(product.marginPercent)}`}>
-                      <p className="font-semibold">
-                        {product.margin >= 0 ? "+" : ""}{formatCurrency(product.margin)}
-                      </p>
-                      <p className="text-xs">
-                        {product.marginPercent >= 0 ? "+" : ""}{product.marginPercent.toFixed(1)}%
-                      </p>
-                    </div>
                   </div>
 
-                  <div className="flex items-center gap-4 text-sm text-zinc-400">
-                    <span className="flex items-center gap-1">
-                      <Eye className="h-4 w-4" />
-                      {product.vintedViews}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Heart className="h-4 w-4" />
-                      {product.vintedFavorites}
-                    </span>
-                    <span className="text-xs">
-                      {formatDate(product.createdAt)}
-                    </span>
+                  <div className="text-xs text-zinc-500">
+                    {formatDate(product.createdAt)}
                   </div>
 
                   <div className="flex gap-2 pt-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -261,16 +216,14 @@ export default function InventoryPage() {
                   <tr className="border-b border-zinc-800">
                     <th className="text-left p-4 text-sm font-medium text-zinc-400">Produit</th>
                     <th className="text-left p-4 text-sm font-medium text-zinc-400">Catégorie</th>
-                    <th className="text-right p-4 text-sm font-medium text-zinc-400">Achat</th>
-                    <th className="text-right p-4 text-sm font-medium text-zinc-400">Vente</th>
-                    <th className="text-right p-4 text-sm font-medium text-zinc-400">Marge</th>
-                    <th className="text-center p-4 text-sm font-medium text-zinc-400">Stats</th>
-                    <th className="text-center p-4 text-sm font-medium text-zinc-400">Statut</th>
+                    <th className="text-right p-4 text-sm font-medium text-zinc-400">Prix d&apos;achat</th>
+                    <th className="text-right p-4 text-sm font-medium text-zinc-400">Prix de vente</th>
+                    <th className="text-left p-4 text-sm font-medium text-zinc-400">Date</th>
                     <th className="text-right p-4 text-sm font-medium text-zinc-400">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredProducts.map((product) => (
+                  {products.map((product) => (
                     <tr key={product.id} className="border-b border-zinc-800/50 hover:bg-zinc-800/30">
                       <td className="p-4">
                         <div className="flex items-center gap-3">
@@ -287,28 +240,8 @@ export default function InventoryPage() {
                       <td className="p-4 text-right text-white font-medium">
                         {formatCurrency(product.sellingPrice)}
                       </td>
-                      <td className={`p-4 text-right font-medium ${getMarginColor(product.marginPercent)}`}>
-                        {product.margin >= 0 ? "+" : ""}{formatCurrency(product.margin)}
-                        <span className="text-xs ml-1">
-                          ({product.marginPercent >= 0 ? "+" : ""}{product.marginPercent.toFixed(1)}%)
-                        </span>
-                      </td>
-                      <td className="p-4">
-                        <div className="flex items-center justify-center gap-3 text-sm text-zinc-400">
-                          <span className="flex items-center gap-1">
-                            <Eye className="h-3 w-3" />
-                            {product.vintedViews}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Heart className="h-3 w-3" />
-                            {product.vintedFavorites}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="p-4 text-center">
-                        <Badge className={getStatusColor(product.status)}>
-                          {getStatusLabel(product.status)}
-                        </Badge>
+                      <td className="p-4 text-zinc-500 text-sm">
+                        {formatDate(product.createdAt)}
                       </td>
                       <td className="p-4">
                         <div className="flex items-center justify-end gap-2">
@@ -335,12 +268,12 @@ export default function InventoryPage() {
           </Card>
         )}
 
-        {filteredProducts.length === 0 && (
+        {products.length === 0 && (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">📦</div>
             <h3 className="text-xl font-semibold text-white mb-2">Aucun produit trouvé</h3>
             <p className="text-zinc-400 mb-4">
-              {search || statusFilter !== "all" || categoryFilter !== "all"
+              {search || categoryFilter !== "all"
                 ? "Essayez de modifier vos filtres"
                 : "Commencez par ajouter votre premier produit"}
             </p>
