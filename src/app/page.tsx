@@ -74,7 +74,7 @@ export default function DashboardPage() {
     return acc
   }, [] as { name: string; value: number; color: string }[])
 
-  const chartData = sales.reduce((acc, sale) => {
+  const chartDataRaw = sales.reduce((acc, sale) => {
     const saleDate = new Date(sale.saleDate)
     const month = saleDate.toLocaleDateString("fr-FR", { month: "short", year: "2-digit" })
     const sortKey = saleDate.getFullYear() * 100 + saleDate.getMonth()
@@ -88,8 +88,10 @@ export default function DashboardPage() {
     }
     return acc
   }, [] as { month: string; sales: number; revenue: number; profit: number; sortKey: number }[])
+  
+  const chartData = chartDataRaw
     .sort((a, b) => a.sortKey - b.sortKey)
-    .map(({ sortKey: _, ...rest }) => rest)
+    .map((item) => ({ month: item.month, sales: item.sales, revenue: item.revenue, profit: item.profit }))
 
   // Calculate top products by profit
   const topProductsData = sales.reduce((acc, sale) => {
