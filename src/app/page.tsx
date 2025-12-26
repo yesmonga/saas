@@ -75,17 +75,21 @@ export default function DashboardPage() {
   }, [] as { name: string; value: number; color: string }[])
 
   const chartData = sales.reduce((acc, sale) => {
-    const month = new Date(sale.saleDate).toLocaleDateString("fr-FR", { month: "short", year: "2-digit" })
+    const saleDate = new Date(sale.saleDate)
+    const month = saleDate.toLocaleDateString("fr-FR", { month: "short", year: "2-digit" })
+    const sortKey = saleDate.getFullYear() * 100 + saleDate.getMonth()
     const existing = acc.find((m) => m.month === month)
     if (existing) {
       existing.sales++
       existing.revenue += sale.finalPrice
       existing.profit += sale.netProfit
     } else {
-      acc.push({ month, sales: 1, revenue: sale.finalPrice, profit: sale.netProfit })
+      acc.push({ month, sales: 1, revenue: sale.finalPrice, profit: sale.netProfit, sortKey })
     }
     return acc
-  }, [] as { month: string; sales: number; revenue: number; profit: number }[])
+  }, [] as { month: string; sales: number; revenue: number; profit: number; sortKey: number }[])
+    .sort((a, b) => a.sortKey - b.sortKey)
+    .map(({ sortKey, ...rest }) => rest)
 
   // Calculate top products by profit
   const topProductsData = sales.reduce((acc, sale) => {
