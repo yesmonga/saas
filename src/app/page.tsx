@@ -89,7 +89,7 @@ export default function DashboardPage() {
     return acc
   }, [] as { month: string; sales: number; revenue: number; profit: number; sortKey: number }[])
     .sort((a, b) => a.sortKey - b.sortKey)
-    .map(({ sortKey, ...rest }) => rest)
+    .map(({ sortKey: _, ...rest }) => rest)
 
   // Calculate top products by profit
   const topProductsData = sales.reduce((acc, sale) => {
