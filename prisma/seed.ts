@@ -148,9 +148,11 @@ const salesData = [
 ]
 
 const stockProducts = [
-  // Pokemon
+  // ========== POKEMON (Stock CSV + Amazon CSV) ==========
+  // Stock CSV - Coffrets Super Premium
   { title: "Coffret Pokémon Super-Premium EV8.5 Évolutions Prismatiques", purchasePrice: 119, category: "Pokemon", purchaseDate: "2025-05-22", dateHome: "2025-09-29" },
   { title: "Coffret Pokémon Super-Premium EV8.5 Évolutions Prismatiques", purchasePrice: 130, category: "Pokemon", purchaseDate: "2025-05-22", dateHome: "2025-09-29" },
+  // Stock CSV - ETB Flamme Noir (x7)
   { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
   { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
   { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
@@ -158,11 +160,41 @@ const stockProducts = [
   { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
   { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
   { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  // Stock CSV - ETB Flamme Blanche (x3)
   { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
   { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
   { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  // Amazon CSV - ETB EV 8.5 (Évolutions Prismatiques) - Expédiés
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "feyaffricayexpm@yvora.fr", amazonOrderId: "171-5182797-5403531" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "cellesonnieprvee@yvora.fr", amazonOrderId: "171-7767820-2965951" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "aliemurcfxff@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "alizao'mearaakjxt@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "ruthanndowneseqpfs@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "annaliseaureleacnyns@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "malindasamarayncdd@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "laurenebarbezqmjg@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-29", dateHome: null, amazonEmail: "philiscarasbbtfo@yvora.fr" },
+  // Amazon CSV - ETB Gardevoir - Expédiés
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "jodypegamwstw@yvora.fr", amazonOrderId: "171-8977433-0157150" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "tiffanisollowswjiga@yvora.fr", amazonOrderId: "171-0547802-1557124" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "geriannamaynardnamvh@yvora.fr", amazonOrderId: "171-0628735-3416357" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "virgieangelecgtfk@yvora.fr" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-11", dateHome: null, amazonEmail: "3@yvora.fr" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "nikefarrisonasnly@yvora.fr" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "41@yvora.fr" },
+  // Amazon CSV - ETB Lucario - Expédiés
+  { title: "ETB Lucario", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "tanijacquelynauzkx@yvora.fr" },
+  { title: "ETB Lucario", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-16", dateHome: null, amazonEmail: "10@yvora.fr" },
+  // Amazon CSV - UPC Dracaufeu (UPS DARCOFEU) - Payés mais pas expédiés
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "tamikoadeywzoxm@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "catherinainnesgntjb@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "maddykarelwhkdo@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "hephzibahingramsgzvg@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "korecristobalwcnys@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "annaliseaureleacnyns@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "korecristobalwcnys@yvora.fr" },
   
-  // Pop Mart
+  // ========== POP MART ==========
   { title: "Pop Mart - MOLLY – Peekaboo", purchasePrice: 72, category: "Pop Mart", purchaseDate: "2025-06-12", dateHome: "2025-09-29" },
   { title: "Pop Mart Cry x1 boite", purchasePrice: 16.80, category: "Pop Mart", purchaseDate: "2025-06-22", dateHome: "2025-09-29" },
   { title: "Pop Mart Cry Whole Set", purchasePrice: 100.80, category: "Pop Mart", purchaseDate: "2025-06-22", dateHome: "2025-09-29" },
@@ -203,38 +235,38 @@ const stockProducts = [
   { title: "Pop Mart Hirono Living", purchasePrice: 32.40, category: "Pop Mart", purchaseDate: "2025-07-09", dateHome: "2025-09-29" },
   { title: "Pop Mart Hirono Living", purchasePrice: 32.40, category: "Pop Mart", purchaseDate: "2025-07-09", dateHome: "2025-09-29" },
   
-  // Sneakers (avec pointures)
-  { title: "Salomon xt 6 white fairy tale almond milk", purchasePrice: 100.76, category: "Sneakers", subcategory: "43 1/3", purchaseDate: "2025-07-13", dateHome: "2025-09-29" },
-  { title: "New Balance Purple 740CG2", purchasePrice: 78, category: "Sneakers", subcategory: "39.5", purchaseDate: "2025-07-25", dateHome: "2025-09-29" },
-  { title: "Salomon xt-6 ghost gray", purchasePrice: 104, category: "Sneakers", purchaseDate: "2025-08-11", dateHome: "2025-09-29" },
-  { title: "Salomon Sportstyle XT-6 GTX Carbon Vanilla Ice", purchasePrice: 100, category: "Sneakers", purchaseDate: "2025-08-11", dateHome: "2025-09-29" },
+  // ========== SNEAKERS ==========
+  { title: "Salomon XT-6 White Fairy Tale Almond Milk", purchasePrice: 100.76, category: "Sneakers", subcategory: "43 1/3", purchaseDate: "2025-07-13", dateHome: "2025-09-29" },
+  { title: "New Balance 740CG2 Purple", purchasePrice: 78, category: "Sneakers", subcategory: "39.5", purchaseDate: "2025-07-25", dateHome: "2025-09-29" },
   
-  // Lorcana
+  // ========== LORCANA ==========
   { title: "Disney Lorcana: The First Chapter Booster Display", purchasePrice: 144, category: "Lorcana", purchaseDate: "2025-07-10", dateHome: "2025-09-29" },
   { title: "Disney Lorcana: The First Chapter Booster Display", purchasePrice: 144, category: "Lorcana", purchaseDate: "2025-07-10", dateHome: "2025-09-29" },
   
-  // Accessoires
-  { title: "KAWS Chul-Su Figure (Coloured)", purchasePrice: 460, category: "Accessoires", purchaseDate: "2025-07-13", dateHome: "2025-09-29" },
-  { title: "adidas Originals x ASOS - Veste de survêtement Fleur", purchasePrice: 145.99, category: "Vêtements", subcategory: "S", purchaseDate: "2025-07-18", dateHome: "2025-09-29" },
-  { title: "United States Mint – 250th Anniversary United States Navy", purchasePrice: 110, category: "Accessoires", purchaseDate: "2025-10-29", dateHome: "2025-10-29" },
-  { title: "Ensemble de pin's Winnie l'Ourson et Éfélant", purchasePrice: 35, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: "2025-11-18" },
-  { title: "Folklore Album Cardigan Plush Cat", purchasePrice: 49, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
-  { title: "Folklore Album Cardigan Plush Cat", purchasePrice: 49, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
-  { title: "Folklore Album Cardigan Plush Cat", purchasePrice: 49, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
-  { title: "The Life of a Showgirl Vinyl Case", purchasePrice: 103, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
-  { title: "Magic The Gathering Chocobo Bundle Final Fantasy", purchasePrice: 114.99, category: "Accessoires", purchaseDate: "2025-12-24", dateHome: "2025-12-26" },
-  { title: "Yzma – The Emperor's New Groove 25th Anniversary", purchasePrice: 134, category: "Accessoires", purchaseDate: "2025-12-24", dateHome: null },
-  
-  // Mattel
-  { title: "Monster High Skullector The Shining Grady Twins", purchasePrice: 105, category: "Mattel", purchaseDate: "2025-11-16", dateHome: null },
+  // ========== MATTEL ==========
+  { title: "Monster High Skullector - The Shining Grady Twins", purchasePrice: 105, category: "Mattel", purchaseDate: "2025-11-16", dateHome: null },
   { title: "UNO Canvas Billie Eilish", purchasePrice: 25, category: "Mattel", purchaseDate: "2025-12-24", dateHome: null },
   { title: "UNO Canvas Billie Eilish", purchasePrice: 25, category: "Mattel", purchaseDate: "2025-12-24", dateHome: null },
-  { title: "Monster High Skullector – Edward Scissorhands Doll", purchasePrice: 72, category: "Mattel", purchaseDate: "2025-12-24", dateHome: null },
-  { title: "Monster High Skullector – Edward Scissorhands Doll", purchasePrice: 72, category: "Mattel", purchaseDate: "2025-12-24", dateHome: null },
+  { title: "Monster High Skullector - Edward Scissorhands Doll", purchasePrice: 72, category: "Mattel", purchaseDate: "2025-12-24", dateHome: null },
+  { title: "Monster High Skullector - Edward Scissorhands Doll", purchasePrice: 72, category: "Mattel", purchaseDate: "2025-12-24", dateHome: null },
+  { title: "Yzma - The Emperor's New Groove 25th Anniversary", purchasePrice: 134, category: "Mattel", purchaseDate: "2025-12-24", dateHome: null },
   
-  // Funko
+  // ========== FUNKO ==========
   { title: "FUNKO POP! - IRON MAN", purchasePrice: 30, category: "Funko", purchaseDate: "2025-12-24", dateHome: null },
   { title: "FUNKO POP! ED LIMITEE SUPREME - ONE PIECE - Sanji WCI", purchasePrice: 24.99, category: "Funko", purchaseDate: "2025-12-24", dateHome: null },
+  
+  // ========== ACCESSOIRES ==========
+  { title: "KAWS Chul-Su Figure (Coloured)", purchasePrice: 460, category: "Accessoires", purchaseDate: "2025-07-13", dateHome: "2025-09-29" },
+  { title: "United States Mint - 250th Anniversary United States Navy", purchasePrice: 110, category: "Accessoires", purchaseDate: "2025-10-29", dateHome: "2025-10-29" },
+  { title: "Ensemble de pin's Winnie l'Ourson et Éfélant", purchasePrice: 35, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: "2025-11-18" },
+  { title: "Folklore Album Cardigan Plush Cat (Taylor Swift)", purchasePrice: 49, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
+  { title: "Folklore Album Cardigan Plush Cat (Taylor Swift)", purchasePrice: 49, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
+  { title: "Folklore Album Cardigan Plush Cat (Taylor Swift)", purchasePrice: 49, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
+  { title: "The Life of a Showgirl Vinyl Case (Taylor Swift)", purchasePrice: 103, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
+  { title: "Magic The Gathering Chocobo Bundle Final Fantasy", purchasePrice: 114.99, category: "Accessoires", purchaseDate: "2025-12-24", dateHome: "2025-12-26" },
+  
+  // ========== VÊTEMENTS ==========
+  { title: "Adidas Originals x ASOS - Veste de survêtement Fleur", purchasePrice: 145.99, category: "Vêtements", subcategory: "S", purchaseDate: "2025-07-18", dateHome: "2025-09-29" },
 ]
 
 async function main() {
@@ -266,18 +298,30 @@ async function main() {
 
   // Create products
   for (const product of stockProducts) {
+    const p = product as { 
+      title: string
+      purchasePrice: number
+      category: string
+      purchaseDate: string
+      dateHome: string | null
+      subcategory?: string
+      amazonEmail?: string
+      amazonOrderId?: string
+    }
     await prisma.product.create({
       data: {
-        title: product.title,
-        purchasePrice: product.purchasePrice,
-        totalCost: product.purchasePrice,
-        sellingPrice: Math.round(product.purchasePrice * 1.4),
-        category: product.category,
-        subcategory: (product as { subcategory?: string }).subcategory || null,
+        title: p.title,
+        purchasePrice: p.purchasePrice,
+        totalCost: p.purchasePrice,
+        sellingPrice: Math.round(p.purchasePrice * 1.4),
+        category: p.category,
+        subcategory: p.subcategory || null,
         status: "in_stock",
         condition: "new_with_tags",
-        purchaseDate: product.purchaseDate ? new Date(product.purchaseDate) : null,
-        dateHome: product.dateHome ? new Date(product.dateHome) : null,
+        purchaseDate: p.purchaseDate ? new Date(p.purchaseDate) : null,
+        dateHome: p.dateHome ? new Date(p.dateHome) : null,
+        amazonEmail: p.amazonEmail || null,
+        amazonOrderId: p.amazonOrderId || null,
       },
     })
   }
