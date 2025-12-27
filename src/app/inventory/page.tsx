@@ -23,7 +23,20 @@ import {
   Plus,
   Pencil,
   Trash2,
+  ImageIcon,
 } from "lucide-react"
+import Image from "next/image"
+
+const getFirstPhoto = (photos: string | string[] | undefined): string | null => {
+  if (!photos) return null
+  if (Array.isArray(photos)) return photos[0] || null
+  try {
+    const parsed = JSON.parse(photos) as string[]
+    return parsed[0] || null
+  } catch {
+    return null
+  }
+}
 
 const categories = [
   { value: "all", label: "Toutes les catégories" },
@@ -164,8 +177,17 @@ export default function InventoryPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {products.map((product) => (
               <Card key={product.id} className="overflow-hidden group hover:border-zinc-700 transition-colors">
-                <div className="relative aspect-square bg-zinc-800 flex items-center justify-center text-6xl">
-                  📦
+                <div className="relative aspect-square bg-zinc-800 flex items-center justify-center overflow-hidden">
+                  {getFirstPhoto(product.photos) ? (
+                    <Image
+                      src={getFirstPhoto(product.photos)!}
+                      alt={product.title}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <ImageIcon className="h-12 w-12 text-zinc-600" />
+                  )}
                 </div>
                 <CardContent className="p-4 space-y-3">
                   <div>
@@ -173,16 +195,9 @@ export default function InventoryPage() {
                     <p className="text-sm text-zinc-400">{product.category}</p>
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-lg font-bold text-white">
-                        {formatCurrency(product.sellingPrice)}
-                      </p>
-                      <p className="text-xs text-zinc-500">
-                        Achat: {formatCurrency(product.purchasePrice)}
-                      </p>
-                    </div>
-                  </div>
+                  <p className="text-lg font-bold text-white">
+                    {formatCurrency(product.purchasePrice)}
+                  </p>
 
                   <div className="text-xs text-zinc-500">
                     {formatDate(product.createdAt)}
@@ -217,7 +232,6 @@ export default function InventoryPage() {
                     <th className="text-left p-4 text-sm font-medium text-zinc-400">Produit</th>
                     <th className="text-left p-4 text-sm font-medium text-zinc-400">Catégorie</th>
                     <th className="text-right p-4 text-sm font-medium text-zinc-400">Prix d&apos;achat</th>
-                    <th className="text-right p-4 text-sm font-medium text-zinc-400">Prix de vente</th>
                     <th className="text-left p-4 text-sm font-medium text-zinc-400">Date</th>
                     <th className="text-right p-4 text-sm font-medium text-zinc-400">Actions</th>
                   </tr>
@@ -227,18 +241,25 @@ export default function InventoryPage() {
                     <tr key={product.id} className="border-b border-zinc-800/50 hover:bg-zinc-800/30">
                       <td className="p-4">
                         <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-lg bg-zinc-800 flex items-center justify-center text-lg">
-                            📦
+                          <div className="h-10 w-10 rounded-lg bg-zinc-800 flex items-center justify-center overflow-hidden">
+                            {getFirstPhoto(product.photos) ? (
+                              <Image
+                                src={getFirstPhoto(product.photos)!}
+                                alt={product.title}
+                                width={40}
+                                height={40}
+                                className="object-cover"
+                              />
+                            ) : (
+                              <ImageIcon className="h-5 w-5 text-zinc-600" />
+                            )}
                           </div>
                           <span className="font-medium text-white">{product.title}</span>
                         </div>
                       </td>
                       <td className="p-4 text-zinc-400">{product.category}</td>
-                      <td className="p-4 text-right text-zinc-400">
-                        {formatCurrency(product.purchasePrice)}
-                      </td>
                       <td className="p-4 text-right text-white font-medium">
-                        {formatCurrency(product.sellingPrice)}
+                        {formatCurrency(product.purchasePrice)}
                       </td>
                       <td className="p-4 text-zinc-500 text-sm">
                         {formatDate(product.createdAt)}
@@ -270,7 +291,7 @@ export default function InventoryPage() {
 
         {products.length === 0 && (
           <div className="text-center py-12">
-            <div className="text-6xl mb-4">📦</div>
+            <ImageIcon className="h-16 w-16 text-zinc-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">Aucun produit trouvé</h3>
             <p className="text-zinc-400 mb-4">
               {search || categoryFilter !== "all"

@@ -17,7 +17,8 @@ import {
 } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { formatCurrency } from "@/lib/utils"
-import { Save, ArrowLeft, Trash2, DollarSign, X } from "lucide-react"
+import { Save, ArrowLeft, Trash2, DollarSign, X, Upload } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import type { Product } from "@/types"
 
@@ -50,6 +51,7 @@ export default function EditProductPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [showSaleModal, setShowSaleModal] = useState(false)
+  const [photos, setPhotos] = useState<string[]>([])
   const [saleData, setSaleData] = useState({
     finalPrice: 0,
     platformFees: 0,
@@ -90,6 +92,12 @@ export default function EditProductPage() {
         const res = await fetch(`/api/products/${params.id}`)
         if (res.ok) {
           const product: Product = await res.json()
+          // Parse photos
+          const productPhotos = product.photos
+            ? (Array.isArray(product.photos) ? product.photos : JSON.parse(product.photos as unknown as string))
+            : []
+          setPhotos(productPhotos)
+          
           setFormData({
             title: product.title || "",
             description: product.description || "",
@@ -135,6 +143,29 @@ export default function EditProductPage() {
     return { color: "text-red-500", label: "🔴 Marge faible" }
   }
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files) return
+
+    Array.from(files).forEach((file) => {
+      if (file.size > 5 * 1024 * 1024) {
+        toast({ title: "Image trop grande", description: "Max 5MB par image", variant: "destructive" })
+        return
+      }
+
+      const reader = new FileReader()
+      reader.onload = (event) => {
+        const base64 = event.target?.result as string
+        setPhotos((prev) => [...prev, base64])
+      }
+      reader.readAsDataURL(file)
+    })
+  }
+
+  const removePhoto = (index: number) => {
+    setPhotos((prev) => prev.filter((_, i) => i !== index))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
@@ -145,6 +176,7 @@ export default function EditProductPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
+          photos: JSON.stringify(photos),
           purchaseDate: formData.purchaseDate || null,
           dateHome: formData.dateHome || null,
         }),
@@ -278,6 +310,38 @@ export default function EditProductPage() {
                   </Select>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader><CardTitle>Photos</CardTitle></CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {photos.map((photo, index) => (
+                  <div key={index} className="relative aspect-square rounded-lg overflow-hidden bg-zinc-800 group">
+                    <Image src={photo} alt={`Photo ${index + 1}`} fill className="object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => removePhoto(index)}
+                      className="absolute top-2 right-2 p-1 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+                <label className="aspect-square rounded-lg border-2 border-dashed border-zinc-700 hover:border-zinc-500 flex flex-col items-center justify-center cursor-pointer transition-colors">
+                  <Upload className="h-8 w-8 text-zinc-500 mb-2" />
+                  <span className="text-sm text-zinc-500">Ajouter</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              <p className="text-xs text-zinc-500 mt-2">Max 5MB par image. Formats: JPG, PNG, WebP</p>
             </CardContent>
           </Card>
 
