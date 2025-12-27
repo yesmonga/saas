@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import {
   LayoutDashboard,
@@ -13,7 +12,6 @@ import {
   Settings,
   Box,
   Search,
-  ChevronDown,
   Sparkles,
   Zap,
 } from "lucide-react"
@@ -27,31 +25,8 @@ const mainNav = [
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
 ]
 
-interface Category {
-  id: string
-  name: string
-  color: string
-}
-
 export function Sidebar() {
   const pathname = usePathname()
-  const [categoriesOpen, setCategoriesOpen] = useState(true)
-  const [categories, setCategories] = useState<Category[]>([])
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await fetch("/api/categories")
-        if (res.ok) {
-          const data = await res.json()
-          setCategories(data)
-        }
-      } catch (error) {
-        console.error("Failed to fetch categories:", error)
-      }
-    }
-    fetchCategories()
-  }, [])
 
   return (
     <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-zinc-800/50 bg-[#0a0a0a]">
@@ -101,38 +76,6 @@ export function Sidebar() {
               </Link>
             )
           })}
-
-          {/* Categories Section */}
-          <div className="pt-4">
-            <button
-              onClick={() => setCategoriesOpen(!categoriesOpen)}
-              className="flex w-full items-center gap-2 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 hover:text-zinc-300"
-            >
-              <ChevronDown className={cn(
-                "h-3 w-3 transition-transform",
-                !categoriesOpen && "-rotate-90"
-              )} />
-              Catégories
-            </button>
-            
-            {categoriesOpen && (
-              <div className="mt-1 space-y-0.5">
-                {categories.map((cat) => (
-                  <Link
-                    key={cat.name}
-                    href={`/inventory?category=${cat.name}`}
-                    className="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-zinc-400 transition-all hover:bg-zinc-800/50 hover:text-white"
-                  >
-                    <div 
-                      className="h-2 w-2 rounded-full" 
-                      style={{ backgroundColor: cat.color }}
-                    />
-                    {cat.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
 
           {/* Settings at bottom of nav */}
           <div className="pt-4 border-t border-zinc-800/50 mt-4">
