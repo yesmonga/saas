@@ -130,30 +130,38 @@ export default function InventoryPage() {
     fetchProducts()
   }, [fetchProducts])
 
-  // Group products by category
+  // Group products by category (excluding Pokemon)
   const groupedByCategory: CategoryGroup[] = (() => {
     const groups: Record<string, Product[]> = {}
     
     products.forEach((product) => {
       const cat = product.category || "Autres"
+      // Exclude Pokemon category - it has its own dedicated page
+      if (cat === "Pokemon") return
       if (!groups[cat]) {
         groups[cat] = []
       }
       groups[cat].push(product)
     })
 
-    // Sort categories by number of products (descending)
+    // Sort categories by total value (descending)
     return Object.entries(groups)
       .map(([category, prods]) => ({
         category,
         products: groupSimilarProducts(prods),
         isExpanded: expandedCategories.has(category),
       }))
-      .sort((a, b) => b.products.length - a.products.length)
+      .sort((a, b) => {
+        const valueA = a.products.reduce((sum, p) => sum + p.purchasePrice, 0)
+        const valueB = b.products.reduce((sum, p) => sum + p.purchasePrice, 0)
+        return valueB - valueA
+      })
   })()
 
-  const totalValue = products.reduce((sum, p) => sum + p.purchasePrice, 0)
-  const totalItems = products.length
+  // Calculate totals excluding Pokemon
+  const nonPokemonProducts = products.filter(p => p.category !== "Pokemon")
+  const totalValue = nonPokemonProducts.reduce((sum, p) => sum + p.purchasePrice, 0)
+  const totalItems = nonPokemonProducts.length
 
   if (loading) {
     return (

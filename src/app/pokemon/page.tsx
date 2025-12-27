@@ -172,12 +172,10 @@ export default function PokemonPage() {
         isExpanded: expandedSeries.has(seriesName),
       }))
       .sort((a, b) => {
-        if (a.seriesData && b.seriesData) {
-          return a.seriesData.order - b.seriesData.order
-        }
-        if (a.seriesData) return -1
-        if (b.seriesData) return 1
-        return a.series.localeCompare(b.series)
+        // Sort by total value (descending)
+        const valueA = a.products.reduce((sum, p) => sum + p.purchasePrice, 0)
+        const valueB = b.products.reduce((sum, p) => sum + p.purchasePrice, 0)
+        return valueB - valueA
       })
   })()
 
