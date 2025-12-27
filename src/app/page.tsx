@@ -144,14 +144,14 @@ export default function DashboardPage() {
             value={formatCurrency(stats?.revenue || 0)}
             icon={BarChart3}
             iconColor="text-violet-400"
-            trend={{ value: 23, isPositive: true }}
+            trend={stats?.revenueChange !== undefined ? { value: Math.abs(stats.revenueChange), isPositive: stats.revenueChange >= 0 } : undefined}
           />
           <StatsCard
             title="Articles vendus"
             value={String(stats?.soldCount || 0)}
             icon={ShoppingBag}
             iconColor="text-emerald-400"
-            trend={{ value: 17, isPositive: true }}
+            trend={stats?.soldChange !== undefined ? { value: Math.abs(stats.soldChange), isPositive: stats.soldChange >= 0 } : undefined}
           />
           <StatsCard
             title="Articles en stock"
@@ -165,7 +165,7 @@ export default function DashboardPage() {
             value={formatCurrency(stats?.netProfit || 0)}
             icon={TrendingUp}
             iconColor="text-pink-400"
-            trend={{ value: 12, isPositive: true }}
+            trend={stats?.profitChange !== undefined ? { value: Math.abs(stats.profitChange), isPositive: stats.profitChange >= 0 } : undefined}
           />
         </div>
 

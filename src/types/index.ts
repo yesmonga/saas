@@ -100,10 +100,17 @@ export interface DashboardStats {
   inStockCount: number
   soldCount: number
   soldThisMonth: number
+  soldLastMonth: number
   revenue: number
   revenueThisMonth: number
+  revenueLastMonth: number
   netProfit: number
   profitThisMonth: number
+  profitLastMonth: number
+  // Percentage changes vs last month
+  revenueChange: number
+  profitChange: number
+  soldChange: number
   averageMargin: number
   totalInvestment: number
   roi: number
