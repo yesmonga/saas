@@ -122,8 +122,8 @@ export function MobileLayout({ children }: MobileLayoutProps) {
       </aside>
 
       {/* Mobile Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 md:hidden">
-        <div className="flex h-14 items-center justify-between px-4 bg-[#0a0a0a]/95 backdrop-blur-lg border-b border-zinc-800/50 safe-area-top">
+      <header className="fixed top-0 left-0 right-0 z-50 md:hidden safe-area-top bg-[#0a0a0a]/95 backdrop-blur-lg border-b border-zinc-800/50">
+        <div className="flex h-14 items-center justify-between px-4">
           <button
             onClick={() => setSidebarOpen(true)}
             className="flex h-10 w-10 items-center justify-center rounded-lg text-zinc-400 hover:bg-zinc-800 hover:text-white active:scale-95 transition-all"
@@ -233,7 +233,7 @@ export function MobileLayout({ children }: MobileLayoutProps) {
       {/* Main Content */}
       <main className={cn(
         "min-h-screen bg-[#0a0a0a]",
-        "pt-14 pb-28 md:pt-0 md:pb-0", // Mobile: padding for header and bottom nav (pb-28 = 112px)
+        "pt-[calc(3.5rem+env(safe-area-inset-top))] pb-28 md:pt-0 md:pb-0", // Mobile: padding for header + safe area
         "md:ml-64" // Desktop: margin for sidebar
       )}>
         {children}

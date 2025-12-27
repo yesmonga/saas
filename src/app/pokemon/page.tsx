@@ -380,31 +380,31 @@ export default function PokemonPage() {
                         
                         {/* Product info */}
                         <div className="flex-1 min-w-0">
-                          <span className="block text-sm text-white truncate">{product.title}</span>
+                          <span className="block text-sm text-white line-clamp-2 leading-tight">{product.title}</span>
                           <span className="text-sm font-medium text-yellow-500">
                             {formatCurrency(product.purchasePrice)}
                           </span>
                         </div>
                         
-                        {/* Actions - always visible */}
-                        <div className="flex items-center gap-1 flex-shrink-0">
+                        {/* Actions - all buttons aligned */}
+                        <div className="flex items-center flex-shrink-0">
                           <button
                             onClick={() => handleDuplicate(product.id)}
-                            className="p-2 rounded text-zinc-400 hover:text-green-400 hover:bg-green-500/10"
+                            className="flex items-center justify-center w-9 h-9 rounded text-zinc-400 hover:text-green-400 hover:bg-green-500/10"
                             title="Dupliquer"
                           >
                             <Copy className="h-4 w-4" />
                           </button>
                           <Link
                             href={`/edit/${product.id}`}
-                            className="p-2 rounded text-zinc-400 hover:text-white hover:bg-zinc-700"
+                            className="flex items-center justify-center w-9 h-9 rounded text-zinc-400 hover:text-white hover:bg-zinc-700"
                             title="Modifier"
                           >
                             <Pencil className="h-4 w-4" />
                           </Link>
                           <button
                             onClick={() => handleDelete(product.id)}
-                            className="p-2 rounded text-zinc-400 hover:text-red-400 hover:bg-red-500/10"
+                            className="flex items-center justify-center w-9 h-9 rounded text-zinc-400 hover:text-red-400 hover:bg-red-500/10"
                             title="Supprimer"
                           >
                             <Trash2 className="h-4 w-4" />
