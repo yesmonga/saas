@@ -113,8 +113,17 @@
   padding-top: env(safe-area-inset-top);
 }
 
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Main content padding that accounts for header + safe area */
+.pt-header-safe {
+  padding-top: calc(3.5rem + env(safe-area-inset-top, 0px));
 }
 
 .safe-area-left {

@@ -122,7 +122,7 @@ export function MobileLayout({ children }: MobileLayoutProps) {
       </aside>
 
       {/* Mobile Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 md:hidden safe-area-top bg-[#0a0a0a]/95 backdrop-blur-lg border-b border-zinc-800/50">
+      <header className="fixed top-0 left-0 right-0 z-50 md:hidden bg-[#0a0a0a]/95 backdrop-blur-lg border-b border-zinc-800/50 pt-safe">
         <div className="flex h-14 items-center justify-between px-4">
           <button
             onClick={() => setSidebarOpen(true)}
@@ -213,18 +213,6 @@ export function MobileLayout({ children }: MobileLayoutProps) {
                 <Settings className="h-5 w-5 text-zinc-500" />
                 Paramètres
               </Link>
-              <Link
-                href="/analytics"
-                className={cn(
-                  "flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition-all active:scale-[0.98]",
-                  pathname === "/analytics"
-                    ? "bg-violet-500/10 text-violet-400 border border-violet-500/20"
-                    : "text-zinc-400 hover:bg-zinc-800/50 hover:text-white"
-                )}
-              >
-                <BarChart3 className="h-5 w-5 text-zinc-500" />
-                Analytics
-              </Link>
             </div>
           </nav>
         </div>
@@ -233,7 +221,7 @@ export function MobileLayout({ children }: MobileLayoutProps) {
       {/* Main Content */}
       <main className={cn(
         "min-h-screen bg-[#0a0a0a]",
-        "pt-[calc(3.5rem+env(safe-area-inset-top))] pb-28 md:pt-0 md:pb-0", // Mobile: padding for header + safe area
+        "pt-header-safe pb-24 md:pt-0 md:pb-0", // Mobile: padding for header + safe area, bottom nav
         "md:ml-64" // Desktop: margin for sidebar
       )}>
         {children}
