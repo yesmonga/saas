@@ -147,52 +147,61 @@ const salesData = [
   { title: "Monster High Skullector The Shining Grady Twins", paid: 105, sale: 275, profit: 170, date: "2025-12-08", platform: "Vinted" },
 ]
 
+const pokemonSeriesData = [
+  { name: "EV8.5 Évolutions Prismatiques", code: "EV8.5", color: "#9B59B6", order: 1 },
+  { name: "EV11 Flamme Noir & Blanche", code: "EV11", color: "#1C1C1C", order: 2 },
+  { name: "EV10 Destinées de Paldea", code: "EV10", color: "#3498DB", order: 3 },
+  { name: "Écarlate et Violet", code: "SV", color: "#E74C3C", order: 4 },
+  { name: "Coffrets Premium", code: "PREMIUM", color: "#F39C12", order: 5 },
+  { name: "UPC (Ultra Premium Collection)", code: "UPC", color: "#E67E22", order: 6 },
+]
+
 const stockProducts = [
   // ========== POKEMON (Stock CSV + Amazon CSV) ==========
   // Stock CSV - Coffrets Super Premium
-  { title: "Coffret Pokémon Super-Premium EV8.5 Évolutions Prismatiques", purchasePrice: 119, category: "Pokemon", purchaseDate: "2025-05-22", dateHome: "2025-09-29" },
-  { title: "Coffret Pokémon Super-Premium EV8.5 Évolutions Prismatiques", purchasePrice: 130, category: "Pokemon", purchaseDate: "2025-05-22", dateHome: "2025-09-29" },
+  { title: "Coffret Pokémon Super-Premium EV8.5 Évolutions Prismatiques", purchasePrice: 119, category: "Pokemon", pokemonSeries: "Coffrets Premium", purchaseDate: "2025-05-22", dateHome: "2025-09-29" },
+  { title: "Coffret Pokémon Super-Premium EV8.5 Évolutions Prismatiques", purchasePrice: 130, category: "Pokemon", pokemonSeries: "Coffrets Premium", purchaseDate: "2025-05-22", dateHome: "2025-09-29" },
   // Stock CSV - ETB Flamme Noir (x7)
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV11 Flamme Noir & Blanche", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV11 Flamme Noir & Blanche", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV11 Flamme Noir & Blanche", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV11 Flamme Noir & Blanche", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV11 Flamme Noir & Blanche", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV11 Flamme Noir & Blanche", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV11 Flamme Noir & Blanche", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
   // Stock CSV - ETB Flamme Blanche (x3)
-  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV11 Flamme Noir & Blanche", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV11 Flamme Noir & Blanche", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV11 Flamme Noir & Blanche", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
   // Amazon CSV - ETB EV 8.5 (Évolutions Prismatiques) - Expédiés
-  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "feyaffricayexpm@yvora.fr", amazonOrderId: "171-5182797-5403531" },
-  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "cellesonnieprvee@yvora.fr", amazonOrderId: "171-7767820-2965951" },
-  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "aliemurcfxff@yvora.fr" },
-  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "alizao'mearaakjxt@yvora.fr" },
-  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "ruthanndowneseqpfs@yvora.fr" },
-  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "annaliseaureleacnyns@yvora.fr" },
-  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "malindasamarayncdd@yvora.fr" },
-  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "laurenebarbezqmjg@yvora.fr" },
-  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-29", dateHome: null, amazonEmail: "philiscarasbbtfo@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV8.5 Évolutions Prismatiques", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "feyaffricayexpm@yvora.fr", amazonOrderId: "171-5182797-5403531" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV8.5 Évolutions Prismatiques", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "cellesonnieprvee@yvora.fr", amazonOrderId: "171-7767820-2965951" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV8.5 Évolutions Prismatiques", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "aliemurcfxff@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV8.5 Évolutions Prismatiques", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "alizao'mearaakjxt@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV8.5 Évolutions Prismatiques", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "ruthanndowneseqpfs@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV8.5 Évolutions Prismatiques", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "annaliseaureleacnyns@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV8.5 Évolutions Prismatiques", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "malindasamarayncdd@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV8.5 Évolutions Prismatiques", purchaseDate: "2025-10-25", dateHome: null, amazonEmail: "laurenebarbezqmjg@yvora.fr" },
+  { title: "ETB EV 8.5 Évolutions Prismatiques", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "EV8.5 Évolutions Prismatiques", purchaseDate: "2025-10-29", dateHome: null, amazonEmail: "philiscarasbbtfo@yvora.fr" },
   // Amazon CSV - ETB Gardevoir - Expédiés
-  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "jodypegamwstw@yvora.fr", amazonOrderId: "171-8977433-0157150" },
-  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "tiffanisollowswjiga@yvora.fr", amazonOrderId: "171-0547802-1557124" },
-  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "geriannamaynardnamvh@yvora.fr", amazonOrderId: "171-0628735-3416357" },
-  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "virgieangelecgtfk@yvora.fr" },
-  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-11", dateHome: null, amazonEmail: "3@yvora.fr" },
-  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "nikefarrisonasnly@yvora.fr" },
-  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "41@yvora.fr" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "Écarlate et Violet", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "jodypegamwstw@yvora.fr", amazonOrderId: "171-8977433-0157150" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "Écarlate et Violet", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "tiffanisollowswjiga@yvora.fr", amazonOrderId: "171-0547802-1557124" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "Écarlate et Violet", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "geriannamaynardnamvh@yvora.fr", amazonOrderId: "171-0628735-3416357" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "Écarlate et Violet", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "virgieangelecgtfk@yvora.fr" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "Écarlate et Violet", purchaseDate: "2025-10-11", dateHome: null, amazonEmail: "3@yvora.fr" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "Écarlate et Violet", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "nikefarrisonasnly@yvora.fr" },
+  { title: "ETB Gardevoir", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "Écarlate et Violet", purchaseDate: "2025-10-17", dateHome: null, amazonEmail: "41@yvora.fr" },
   // Amazon CSV - ETB Lucario - Expédiés
-  { title: "ETB Lucario", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "tanijacquelynauzkx@yvora.fr" },
-  { title: "ETB Lucario", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-10-16", dateHome: null, amazonEmail: "10@yvora.fr" },
+  { title: "ETB Lucario", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "Écarlate et Violet", purchaseDate: "2025-10-21", dateHome: null, amazonEmail: "tanijacquelynauzkx@yvora.fr" },
+  { title: "ETB Lucario", purchasePrice: 55.99, category: "Pokemon", pokemonSeries: "Écarlate et Violet", purchaseDate: "2025-10-16", dateHome: null, amazonEmail: "10@yvora.fr" },
   // Amazon CSV - UPC Dracaufeu (UPS DARCOFEU) - Payés mais pas expédiés
-  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "tamikoadeywzoxm@yvora.fr" },
-  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "catherinainnesgntjb@yvora.fr" },
-  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "maddykarelwhkdo@yvora.fr" },
-  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "hephzibahingramsgzvg@yvora.fr" },
-  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "korecristobalwcnys@yvora.fr" },
-  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "annaliseaureleacnyns@yvora.fr" },
-  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "korecristobalwcnys@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", pokemonSeries: "UPC (Ultra Premium Collection)", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "tamikoadeywzoxm@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", pokemonSeries: "UPC (Ultra Premium Collection)", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "catherinainnesgntjb@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", pokemonSeries: "UPC (Ultra Premium Collection)", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "maddykarelwhkdo@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", pokemonSeries: "UPC (Ultra Premium Collection)", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "hephzibahingramsgzvg@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", pokemonSeries: "UPC (Ultra Premium Collection)", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "korecristobalwcnys@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", pokemonSeries: "UPC (Ultra Premium Collection)", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "annaliseaureleacnyns@yvora.fr" },
+  { title: "UPC Dracaufeu (Charizard)", purchasePrice: 154.99, category: "Pokemon", pokemonSeries: "UPC (Ultra Premium Collection)", purchaseDate: "2025-11-15", dateHome: null, amazonEmail: "korecristobalwcnys@yvora.fr" },
   
   // ========== POP MART ==========
   { title: "Pop Mart - MOLLY – Peekaboo", purchasePrice: 72, category: "Pop Mart", purchaseDate: "2025-06-12", dateHome: "2025-09-29" },
@@ -277,6 +286,7 @@ async function main() {
   await prisma.amazonOrder.deleteMany()
   await prisma.product.deleteMany()
   await prisma.category.deleteMany()
+  await prisma.pokemonSeries.deleteMany()
 
   // Create categories
   const categories = [
@@ -296,6 +306,12 @@ async function main() {
   }
   console.log(`✅ Created ${categories.length} categories`)
 
+  // Create Pokemon series
+  for (const series of pokemonSeriesData) {
+    await prisma.pokemonSeries.create({ data: series })
+  }
+  console.log(`✅ Created ${pokemonSeriesData.length} Pokemon series`)
+
   // Create products
   for (const product of stockProducts) {
     const p = product as { 
@@ -307,6 +323,7 @@ async function main() {
       subcategory?: string
       amazonEmail?: string
       amazonOrderId?: string
+      pokemonSeries?: string
     }
     await prisma.product.create({
       data: {
@@ -322,6 +339,7 @@ async function main() {
         dateHome: p.dateHome ? new Date(p.dateHome) : null,
         amazonEmail: p.amazonEmail || null,
         amazonOrderId: p.amazonOrderId || null,
+        pokemonSeries: p.pokemonSeries || null,
       },
     })
   }

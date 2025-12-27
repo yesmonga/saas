@@ -45,6 +45,8 @@ model Product {
   amazonOrderId   String?
   amazonStatus    String?
   
+  pokemonSeries   String?
+  
   notionId        String?  @unique
   
   createdAt       DateTime @default(now())
@@ -90,6 +92,16 @@ model Category {
   name      String   @unique
   color     String
   icon      String?
+  
+  createdAt DateTime @default(now())
+}
+
+model PokemonSeries {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  code      String?
+  color     String   @default("#FFCB05")
+  order     Int      @default(0)
   
   createdAt DateTime @default(now())
 }
