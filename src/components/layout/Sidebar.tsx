@@ -12,7 +12,6 @@ import {
   Settings,
   Box,
   Search,
-  Sparkles,
   Zap,
 } from "lucide-react"
 
@@ -94,18 +93,6 @@ export function Sidebar() {
           </div>
         </nav>
 
-        {/* Bottom Card */}
-        <div className="p-3">
-          <div className="rounded-xl bg-gradient-to-br from-violet-500/10 to-purple-500/10 border border-violet-500/20 p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="h-4 w-4 text-violet-400" />
-              <span className="text-sm font-medium text-white">Pro Tips</span>
-            </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Utilisez les raccourcis clavier pour naviguer plus rapidement.
-            </p>
-          </div>
-        </div>
       </div>
     </aside>
   )
