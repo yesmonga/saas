@@ -191,89 +191,90 @@ export default function PokemonPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-yellow-500/10 border border-yellow-500/20">
-            <Zap className="h-6 w-6 text-yellow-500" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3 md:gap-4">
+          <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-xl bg-yellow-500/10 border border-yellow-500/20">
+            <Zap className="h-5 w-5 md:h-6 md:w-6 text-yellow-500" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Collection Pokémon</h1>
-            <p className="text-zinc-400">Gérez votre collection Pokémon TCG par série</p>
+            <h1 className="text-xl md:text-2xl font-bold text-white">Collection Pokémon</h1>
+            <p className="text-sm md:text-base text-zinc-400">Gérez votre collection par série</p>
           </div>
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setShowCreateSeriesModal(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-800 text-white hover:bg-zinc-700 transition-colors"
+            className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg bg-zinc-800 text-white text-sm hover:bg-zinc-700 transition-colors"
           >
             <Plus className="h-4 w-4" />
-            Nouvelle série
+            <span className="hidden sm:inline">Nouvelle série</span>
+            <span className="sm:hidden">Série</span>
           </button>
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-yellow-500 text-black font-medium hover:bg-yellow-400 transition-colors"
+            className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-lg bg-yellow-500 text-black font-medium text-sm hover:bg-yellow-400 transition-colors"
           >
             <Plus className="h-4 w-4" />
-            Ajouter des produits
+            <span className="hidden sm:inline">Ajouter</span>
           </button>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         <Card className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/20">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-yellow-500/20">
-                <Package className="h-5 w-5 text-yellow-500" />
+          <CardContent className="p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="p-1.5 md:p-2 rounded-lg bg-yellow-500/20">
+                <Package className="h-4 w-4 md:h-5 md:w-5 text-yellow-500" />
               </div>
               <div>
-                <p className="text-sm text-zinc-400">Total articles</p>
-                <p className="text-2xl font-bold text-white">{totalItems}</p>
+                <p className="text-xs md:text-sm text-zinc-400">Total</p>
+                <p className="text-lg md:text-2xl font-bold text-white">{totalItems}</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/20">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-purple-500/20">
-                <Zap className="h-5 w-5 text-purple-500" />
+          <CardContent className="p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="p-1.5 md:p-2 rounded-lg bg-purple-500/20">
+                <Zap className="h-4 w-4 md:h-5 md:w-5 text-purple-500" />
               </div>
               <div>
-                <p className="text-sm text-zinc-400">Séries</p>
-                <p className="text-2xl font-bold text-white">{groupedBySeries.length}</p>
+                <p className="text-xs md:text-sm text-zinc-400">Séries</p>
+                <p className="text-lg md:text-2xl font-bold text-white">{groupedBySeries.length}</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/20">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-green-500/20">
-                <DollarSign className="h-5 w-5 text-green-500" />
+          <CardContent className="p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="p-1.5 md:p-2 rounded-lg bg-green-500/20">
+                <DollarSign className="h-4 w-4 md:h-5 md:w-5 text-green-500" />
               </div>
               <div>
-                <p className="text-sm text-zinc-400">Valeur totale</p>
-                <p className="text-2xl font-bold text-white">{formatCurrency(totalValue)}</p>
+                <p className="text-xs md:text-sm text-zinc-400">Valeur</p>
+                <p className="text-lg md:text-2xl font-bold text-white">{formatCurrency(totalValue)}</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border-blue-500/20">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-500/20">
-                <TrendingUp className="h-5 w-5 text-blue-500" />
+          <CardContent className="p-3 md:p-4">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="p-1.5 md:p-2 rounded-lg bg-blue-500/20">
+                <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-blue-500" />
               </div>
               <div>
-                <p className="text-sm text-zinc-400">Prix moyen</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-xs md:text-sm text-zinc-400">Moyen</p>
+                <p className="text-lg md:text-2xl font-bold text-white">
                   {formatCurrency(totalItems > 0 ? totalValue / totalItems : 0)}
                 </p>
               </div>

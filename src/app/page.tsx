@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Header } from "@/components/layout/Header"
 import { StatsCard } from "@/components/dashboard/StatsCard"
 import { SalesChart } from "@/components/dashboard/SalesChart"
 import { CategoryPieChart } from "@/components/dashboard/CategoryPieChart"
@@ -127,18 +126,17 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      <Header />
-      <div className="p-6 space-y-6">
+      <div className="p-4 md:p-6 space-y-4 md:space-y-6">
         {/* Welcome Section */}
         <div className="mb-2">
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-xl md:text-2xl font-bold text-white">
             Bonjour Alex! 👋
           </h1>
-          <p className="text-zinc-500">Voici un aperçu de votre activité</p>
+          <p className="text-sm md:text-base text-zinc-500">Voici un aperçu de votre activité</p>
         </div>
 
         {/* Stats Grid - Row 1 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           <StatsCard
             title="Chiffre d'affaires"
             value={formatCurrency(stats?.revenue || 0)}
@@ -170,7 +168,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
           <div className="lg:col-span-2">
             <SalesChart data={chartData} />
           </div>
@@ -178,7 +176,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Stats Grid - Row 2 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           <StatsCard
             title="Marge moyenne"
             value={`${(stats?.averageMargin || 0).toFixed(1)}%`}
@@ -206,7 +204,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Bottom Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
           <div className="lg:col-span-2">
             <RecentProducts products={products} />
           </div>

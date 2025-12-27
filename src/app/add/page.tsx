@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Header } from "@/components/layout/Header"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -176,15 +175,16 @@ export default function AddProductPage() {
 
   return (
     <div className="min-h-screen">
-      <Header title="Ajouter un produit" showAddButton={false} />
-      <div className="p-6">
-        <div className="mb-6">
+      <div className="p-4 md:p-6">
+        <div className="mb-4 md:mb-6 flex items-center justify-between">
           <Link href="/inventory">
-            <Button variant="ghost" className="gap-2">
+            <Button variant="ghost" size="sm" className="gap-2">
               <ArrowLeft className="h-4 w-4" />
-              Retour à l&apos;inventaire
+              <span className="hidden sm:inline">Retour</span>
             </Button>
           </Link>
+          <h1 className="text-lg md:text-xl font-bold">Nouveau produit</h1>
+          <div className="w-16" />
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">

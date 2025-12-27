@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from "react"
 import Link from "next/link"
-import { Header } from "@/components/layout/Header"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -173,61 +172,60 @@ export default function InventoryPage() {
 
   return (
     <div className="min-h-screen">
-      <Header title="Inventaire" showAddButton />
-      <div className="p-6 space-y-6">
+      <div className="p-4 md:p-6 space-y-4 md:space-y-6">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <Card className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border-blue-500/20">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-blue-500/20">
-                  <Package className="h-5 w-5 text-blue-500" />
+            <CardContent className="p-3 md:p-4">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="p-1.5 md:p-2 rounded-lg bg-blue-500/20">
+                  <Package className="h-4 w-4 md:h-5 md:w-5 text-blue-500" />
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-400">Total articles</p>
-                  <p className="text-2xl font-bold text-white">{totalItems}</p>
+                  <p className="text-xs md:text-sm text-zinc-400">Total articles</p>
+                  <p className="text-lg md:text-2xl font-bold text-white">{totalItems}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/20">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-purple-500/20">
-                  <TrendingUp className="h-5 w-5 text-purple-500" />
+            <CardContent className="p-3 md:p-4">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="p-1.5 md:p-2 rounded-lg bg-purple-500/20">
+                  <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-purple-500" />
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-400">Catégories</p>
-                  <p className="text-2xl font-bold text-white">{groupedByCategory.length}</p>
+                  <p className="text-xs md:text-sm text-zinc-400">Catégories</p>
+                  <p className="text-lg md:text-2xl font-bold text-white">{groupedByCategory.length}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/20">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/20">
-                  <DollarSign className="h-5 w-5 text-green-500" />
+            <CardContent className="p-3 md:p-4">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="p-1.5 md:p-2 rounded-lg bg-green-500/20">
+                  <DollarSign className="h-4 w-4 md:h-5 md:w-5 text-green-500" />
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-400">Valeur totale</p>
-                  <p className="text-2xl font-bold text-white">{formatCurrency(totalValue)}</p>
+                  <p className="text-xs md:text-sm text-zinc-400">Valeur totale</p>
+                  <p className="text-lg md:text-2xl font-bold text-white">{formatCurrency(totalValue)}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-to-br from-orange-500/10 to-red-500/10 border-orange-500/20">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-orange-500/20">
-                  <TrendingUp className="h-5 w-5 text-orange-500" />
+            <CardContent className="p-3 md:p-4">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="p-1.5 md:p-2 rounded-lg bg-orange-500/20">
+                  <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-orange-500" />
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-400">Prix moyen</p>
-                  <p className="text-2xl font-bold text-white">
+                  <p className="text-xs md:text-sm text-zinc-400">Prix moyen</p>
+                  <p className="text-lg md:text-2xl font-bold text-white">
                     {formatCurrency(totalItems > 0 ? totalValue / totalItems : 0)}
                   </p>
                 </div>

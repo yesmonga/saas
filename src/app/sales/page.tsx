@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Header } from "@/components/layout/Header"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { StatsCard } from "@/components/dashboard/StatsCard"
@@ -46,14 +45,13 @@ export default function SalesPage() {
 
   return (
     <div className="min-h-screen">
-      <Header title="Ventes" showAddButton={false} />
-      <div className="p-6 space-y-6">
+      <div className="p-4 md:p-6 space-y-4 md:space-y-6">
         <div>
-          <h2 className="text-2xl font-bold">Historique des ventes</h2>
-          <p className="text-zinc-400">{sales.length} vente{sales.length > 1 ? "s" : ""} enregistrée{sales.length > 1 ? "s" : ""}</p>
+          <h2 className="text-xl md:text-2xl font-bold">Historique des ventes</h2>
+          <p className="text-sm md:text-base text-zinc-400">{sales.length} vente{sales.length > 1 ? "s" : ""} enregistrée{sales.length > 1 ? "s" : ""}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <StatsCard title="CA ce mois" value={formatCurrency(monthRevenue)} icon={DollarSign} subtitle={`${monthSales.length} ventes`} />
           <StatsCard title="Bénéfice ce mois" value={formatCurrency(monthProfit)} icon={TrendingUp} />
           <StatsCard title="CA total" value={formatCurrency(totalRevenue)} icon={ShoppingCart} subtitle={`${sales.length} ventes`} />
