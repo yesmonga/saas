@@ -6,24 +6,21 @@ import { Header } from "@/components/layout/Header"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { formatCurrency, formatDate } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
 import type { Product } from "@/types"
 import {
   Search,
-  Grid3X3,
-  List,
   Plus,
   Pencil,
   Trash2,
+  Copy,
   ImageIcon,
+  ChevronDown,
+  ChevronRight,
+  Package,
+  DollarSign,
+  TrendingUp,
 } from "lucide-react"
 import Image from "next/image"
 
@@ -38,33 +35,46 @@ const getFirstPhoto = (photos: string | string[] | undefined): string | null => 
   }
 }
 
-const categories = [
-  { value: "all", label: "Toutes les catégories" },
-  { value: "Pokemon", label: "Pokemon" },
-  { value: "Pop Mart", label: "Pop Mart" },
-  { value: "Sneakers", label: "Sneakers" },
-  { value: "Figurines & Collectibles", label: "Figurines & Collectibles" },
-  { value: "Vêtements", label: "Vêtements" },
-  { value: "Lorcana", label: "Lorcana" },
-  { value: "Trading Cards", label: "Trading Cards" },
-  { value: "Mattel", label: "Mattel" },
-  { value: "Accessoires", label: "Accessoires" },
-  { value: "Autres", label: "Autres" },
-]
+const categoryColors: Record<string, string> = {
+  "Pokemon": "#FFCB05",
+  "Pop Mart": "#FF6B9D",
+  "Sneakers": "#4ECDC4",
+  "Lorcana": "#1ABC9C",
+  "Mattel": "#E74C3C",
+  "Funko": "#9B59B6",
+  "Accessoires": "#E67E22",
+  "Vêtements": "#3498DB",
+  "Autres": "#95A5A6",
+}
+
+interface CategoryGroup {
+  category: string
+  products: Product[]
+  isExpanded: boolean
+}
+
+// Group similar products together
+const groupSimilarProducts = (products: Product[]): Product[] => {
+  const sorted = [...products].sort((a, b) => {
+    // First sort by title similarity
+    const titleA = a.title.toLowerCase().replace(/[^a-z0-9]/g, '')
+    const titleB = b.title.toLowerCase().replace(/[^a-z0-9]/g, '')
+    return titleA.localeCompare(titleB)
+  })
+  return sorted
+}
 
 export default function InventoryPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [search, setSearch] = useState("")
-  const [categoryFilter, setCategoryFilter] = useState("all")
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
   const { toast } = useToast()
 
   const fetchProducts = useCallback(async () => {
     try {
       const params = new URLSearchParams()
       params.set("status", "in_stock")
-      if (categoryFilter !== "all") params.set("category", categoryFilter)
       if (search) params.set("search", search)
 
       const res = await fetch(`/api/products?${params}`)
@@ -77,7 +87,7 @@ export default function InventoryPage() {
     } finally {
       setLoading(false)
     }
-  }, [categoryFilter, search])
+  }, [search])
 
   const handleDelete = async (id: string) => {
     if (!confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) return
@@ -85,26 +95,65 @@ export default function InventoryPage() {
     try {
       const res = await fetch(`/api/products/${id}`, { method: "DELETE" })
       if (res.ok) {
-        toast({
-          title: "Produit supprimé",
-          description: "Le produit a été supprimé avec succès",
-          variant: "success",
-        })
-        fetchProducts()
+        setProducts(products.filter((p) => p.id !== id))
+        toast({ title: "Produit supprimé" })
       }
-    } catch (error) {
-      console.error("Error deleting product:", error)
-      toast({
-        title: "Erreur",
-        description: "Impossible de supprimer le produit",
-        variant: "destructive",
-      })
+    } catch {
+      toast({ title: "Erreur", description: "Impossible de supprimer", variant: "destructive" })
     }
+  }
+
+  const handleDuplicate = async (id: string) => {
+    try {
+      const res = await fetch(`/api/products/${id}/duplicate`, { method: "POST" })
+      if (res.ok) {
+        const newProduct = await res.json()
+        setProducts([...products, newProduct])
+        toast({ title: "Produit dupliqué", description: "Le produit a été dupliqué avec succès" })
+      }
+    } catch {
+      toast({ title: "Erreur", description: "Impossible de dupliquer", variant: "destructive" })
+    }
+  }
+
+  const toggleCategory = (category: string) => {
+    const newExpanded = new Set(expandedCategories)
+    if (newExpanded.has(category)) {
+      newExpanded.delete(category)
+    } else {
+      newExpanded.add(category)
+    }
+    setExpandedCategories(newExpanded)
   }
 
   useEffect(() => {
     fetchProducts()
   }, [fetchProducts])
+
+  // Group products by category
+  const groupedByCategory: CategoryGroup[] = (() => {
+    const groups: Record<string, Product[]> = {}
+    
+    products.forEach((product) => {
+      const cat = product.category || "Autres"
+      if (!groups[cat]) {
+        groups[cat] = []
+      }
+      groups[cat].push(product)
+    })
+
+    // Sort categories by number of products (descending)
+    return Object.entries(groups)
+      .map(([category, prods]) => ({
+        category,
+        products: groupSimilarProducts(prods),
+        isExpanded: expandedCategories.has(category),
+      }))
+      .sort((a, b) => b.products.length - a.products.length)
+  })()
+
+  const totalValue = products.reduce((sum, p) => sum + p.purchasePrice, 0)
+  const totalItems = products.length
 
   if (loading) {
     return (
@@ -118,53 +167,78 @@ export default function InventoryPage() {
     <div className="min-h-screen">
       <Header title="Inventaire" showAddButton />
       <div className="p-6 space-y-6">
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-          <div className="flex flex-1 gap-3 w-full sm:w-auto">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
-              <Input
-                placeholder="Rechercher un produit..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-9"
-              />
-            </div>
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Catégorie" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((cat) => (
-                  <SelectItem key={cat.value} value={cat.value}>
-                    {cat.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Card className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border-blue-500/20">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-blue-500/20">
+                  <Package className="h-5 w-5 text-blue-500" />
+                </div>
+                <div>
+                  <p className="text-sm text-zinc-400">Total articles</p>
+                  <p className="text-2xl font-bold text-white">{totalItems}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-          <div className="flex gap-2">
-            <Button
-              variant={viewMode === "grid" ? "default" : "outline"}
-              size="icon"
-              onClick={() => setViewMode("grid")}
-            >
-              <Grid3X3 className="h-4 w-4" />
-            </Button>
-            <Button
-              variant={viewMode === "list" ? "default" : "outline"}
-              size="icon"
-              onClick={() => setViewMode("list")}
-            >
-              <List className="h-4 w-4" />
-            </Button>
-          </div>
+          <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/20">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-purple-500/20">
+                  <TrendingUp className="h-5 w-5 text-purple-500" />
+                </div>
+                <div>
+                  <p className="text-sm text-zinc-400">Catégories</p>
+                  <p className="text-2xl font-bold text-white">{groupedByCategory.length}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/20">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-green-500/20">
+                  <DollarSign className="h-5 w-5 text-green-500" />
+                </div>
+                <div>
+                  <p className="text-sm text-zinc-400">Valeur totale</p>
+                  <p className="text-2xl font-bold text-white">{formatCurrency(totalValue)}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-orange-500/10 to-red-500/10 border-orange-500/20">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-orange-500/20">
+                  <TrendingUp className="h-5 w-5 text-orange-500" />
+                </div>
+                <div>
+                  <p className="text-sm text-zinc-400">Prix moyen</p>
+                  <p className="text-2xl font-bold text-white">
+                    {formatCurrency(totalItems > 0 ? totalValue / totalItems : 0)}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-zinc-400">
-            {products.length} produit{products.length > 1 ? "s" : ""} en stock
-          </p>
+        {/* Search and Add */}
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+            <Input
+              placeholder="Rechercher un produit..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9 bg-zinc-900/50 border-zinc-800"
+            />
+          </div>
           <Link href="/add">
             <Button className="gap-2">
               <Plus className="h-4 w-4" />
@@ -173,129 +247,14 @@ export default function InventoryPage() {
           </Link>
         </div>
 
-        {viewMode === "grid" ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {products.map((product) => (
-              <Card key={product.id} className="overflow-hidden group hover:border-zinc-700 transition-colors">
-                <div className="relative aspect-square bg-zinc-800 flex items-center justify-center overflow-hidden">
-                  {getFirstPhoto(product.photos) ? (
-                    <Image
-                      src={getFirstPhoto(product.photos)!}
-                      alt={product.title}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <ImageIcon className="h-12 w-12 text-zinc-600" />
-                  )}
-                </div>
-                <CardContent className="p-4 space-y-3">
-                  <div>
-                    <h3 className="font-semibold text-white truncate">{product.title}</h3>
-                    <p className="text-sm text-zinc-400">{product.category}</p>
-                  </div>
-
-                  <p className="text-lg font-bold text-white">
-                    {formatCurrency(product.purchasePrice)}
-                  </p>
-
-                  <div className="text-xs text-zinc-500">
-                    {formatDate(product.createdAt)}
-                  </div>
-
-                  <div className="flex gap-2 pt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Link href={`/edit/${product.id}`} className="flex-1">
-                      <Button variant="outline" size="sm" className="w-full gap-1">
-                        <Pencil className="h-3 w-3" />
-                        Éditer
-                      </Button>
-                    </Link>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-red-500 hover:text-red-400"
-                      onClick={() => handleDelete(product.id)}
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <Card>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-zinc-800">
-                    <th className="text-left p-4 text-sm font-medium text-zinc-400">Produit</th>
-                    <th className="text-left p-4 text-sm font-medium text-zinc-400">Catégorie</th>
-                    <th className="text-right p-4 text-sm font-medium text-zinc-400">Prix d&apos;achat</th>
-                    <th className="text-left p-4 text-sm font-medium text-zinc-400">Date</th>
-                    <th className="text-right p-4 text-sm font-medium text-zinc-400">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.map((product) => (
-                    <tr key={product.id} className="border-b border-zinc-800/50 hover:bg-zinc-800/30">
-                      <td className="p-4">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-lg bg-zinc-800 flex items-center justify-center overflow-hidden">
-                            {getFirstPhoto(product.photos) ? (
-                              <Image
-                                src={getFirstPhoto(product.photos)!}
-                                alt={product.title}
-                                width={40}
-                                height={40}
-                                className="object-cover"
-                              />
-                            ) : (
-                              <ImageIcon className="h-5 w-5 text-zinc-600" />
-                            )}
-                          </div>
-                          <span className="font-medium text-white">{product.title}</span>
-                        </div>
-                      </td>
-                      <td className="p-4 text-zinc-400">{product.category}</td>
-                      <td className="p-4 text-right text-white font-medium">
-                        {formatCurrency(product.purchasePrice)}
-                      </td>
-                      <td className="p-4 text-zinc-500 text-sm">
-                        {formatDate(product.createdAt)}
-                      </td>
-                      <td className="p-4">
-                        <div className="flex items-center justify-end gap-2">
-                          <Link href={`/edit/${product.id}`}>
-                            <Button variant="ghost" size="icon">
-                              <Pencil className="h-4 w-4" />
-                            </Button>
-                          </Link>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="text-red-500 hover:text-red-400"
-                            onClick={() => handleDelete(product.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Card>
-        )}
-
-        {products.length === 0 && (
+        {/* Categories Accordion */}
+        {groupedByCategory.length === 0 ? (
           <div className="text-center py-12">
             <ImageIcon className="h-16 w-16 text-zinc-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">Aucun produit trouvé</h3>
             <p className="text-zinc-400 mb-4">
-              {search || categoryFilter !== "all"
-                ? "Essayez de modifier vos filtres"
+              {search
+                ? "Essayez de modifier votre recherche"
                 : "Commencez par ajouter votre premier produit"}
             </p>
             <Link href="/add">
@@ -304,6 +263,131 @@ export default function InventoryPage() {
                 Ajouter un produit
               </Button>
             </Link>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {groupedByCategory.map((group) => (
+              <Card key={group.category} className="bg-zinc-900/50 border-zinc-800 overflow-hidden">
+                {/* Category Header */}
+                <button
+                  onClick={() => toggleCategory(group.category)}
+                  className="w-full flex items-center justify-between p-4 hover:bg-zinc-800/50 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    {group.isExpanded ? (
+                      <ChevronDown className="h-5 w-5 text-zinc-400" />
+                    ) : (
+                      <ChevronRight className="h-5 w-5 text-zinc-400" />
+                    )}
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: categoryColors[group.category] || "#95A5A6" }}
+                    />
+                    <span className="font-medium text-white">{group.category}</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm text-zinc-400">
+                      {formatCurrency(group.products.reduce((sum, p) => sum + p.purchasePrice, 0))}
+                    </span>
+                    <span 
+                      className="px-2 py-1 rounded-full text-sm font-medium"
+                      style={{ 
+                        backgroundColor: `${categoryColors[group.category] || "#95A5A6"}20`,
+                        color: categoryColors[group.category] || "#95A5A6"
+                      }}
+                    >
+                      {group.products.length} article{group.products.length > 1 ? "s" : ""}
+                    </span>
+                  </div>
+                </button>
+
+                {/* Category Content */}
+                {group.isExpanded && (
+                  <div className="border-t border-zinc-800">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-zinc-800/50">
+                          <th className="text-left p-3 text-xs font-medium text-zinc-500">Produit</th>
+                          <th className="text-right p-3 text-xs font-medium text-zinc-500">Prix</th>
+                          <th className="text-right p-3 text-xs font-medium text-zinc-500">Date</th>
+                          <th className="text-right p-3 text-xs font-medium text-zinc-500">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {group.products.map((product, index) => {
+                          // Check if this product is similar to the previous one
+                          const prevProduct = index > 0 ? group.products[index - 1] : null
+                          const isSimilar = prevProduct && 
+                            product.title.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20) === 
+                            prevProduct.title.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20)
+                          
+                          return (
+                            <tr
+                              key={product.id}
+                              className={`border-b border-zinc-800/30 hover:bg-zinc-800/20 ${isSimilar ? 'bg-zinc-800/10' : ''}`}
+                            >
+                              <td className="p-3">
+                                <div className="flex items-center gap-3">
+                                  {isSimilar && <div className="w-4" />}
+                                  <div className="h-8 w-8 rounded bg-zinc-800 flex items-center justify-center overflow-hidden flex-shrink-0">
+                                    {getFirstPhoto(product.photos) ? (
+                                      <Image
+                                        src={getFirstPhoto(product.photos)!}
+                                        alt={product.title}
+                                        width={32}
+                                        height={32}
+                                        className="object-cover"
+                                      />
+                                    ) : (
+                                      <ImageIcon className="h-4 w-4 text-zinc-600" />
+                                    )}
+                                  </div>
+                                  <div>
+                                    <span className="text-sm text-white">{product.title}</span>
+                                    {product.subcategory && (
+                                      <span className="ml-2 text-xs text-zinc-500">({product.subcategory})</span>
+                                    )}
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="p-3 text-right text-sm font-medium" style={{ color: categoryColors[group.category] || "#95A5A6" }}>
+                                {formatCurrency(product.purchasePrice)}
+                              </td>
+                              <td className="p-3 text-right text-zinc-500 text-sm">
+                                {product.purchaseDate ? formatDate(product.purchaseDate) : "-"}
+                              </td>
+                              <td className="p-3 text-right">
+                                <div className="flex items-center justify-end gap-1">
+                                  <button
+                                    onClick={() => handleDuplicate(product.id)}
+                                    className="p-1.5 rounded text-zinc-400 hover:text-green-400 hover:bg-green-500/10"
+                                    title="Dupliquer"
+                                  >
+                                    <Copy className="h-3.5 w-3.5" />
+                                  </button>
+                                  <Link
+                                    href={`/edit/${product.id}`}
+                                    className="p-1.5 rounded text-zinc-400 hover:text-white hover:bg-zinc-700"
+                                  >
+                                    <Pencil className="h-3.5 w-3.5" />
+                                  </Link>
+                                  <button
+                                    onClick={() => handleDelete(product.id)}
+                                    className="p-1.5 rounded text-zinc-400 hover:text-red-400 hover:bg-red-500/10"
+                                  >
+                                    <Trash2 className="h-3.5 w-3.5" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </Card>
+            ))}
           </div>
         )}
       </div>

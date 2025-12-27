@@ -9,6 +9,7 @@ import {
   Search,
   Pencil,
   Trash2,
+  Copy,
   Zap,
   TrendingUp,
   Package,
@@ -98,6 +99,19 @@ export default function PokemonPage() {
       }
     } catch {
       toast({ title: "Erreur", description: "Impossible de supprimer", variant: "destructive" })
+    }
+  }
+
+  const handleDuplicate = async (id: string) => {
+    try {
+      const res = await fetch(`/api/products/${id}/duplicate`, { method: "POST" })
+      if (res.ok) {
+        const newProduct = await res.json()
+        setProducts([...products, newProduct])
+        toast({ title: "Produit dupliqué", description: "Le produit a été dupliqué avec succès" })
+      }
+    } catch {
+      toast({ title: "Erreur", description: "Impossible de dupliquer", variant: "destructive" })
     }
   }
 
@@ -378,6 +392,13 @@ export default function PokemonPage() {
                           </td>
                           <td className="p-3 text-right">
                             <div className="flex items-center justify-end gap-1">
+                              <button
+                                onClick={() => handleDuplicate(product.id)}
+                                className="p-1.5 rounded text-zinc-400 hover:text-green-400 hover:bg-green-500/10"
+                                title="Dupliquer"
+                              >
+                                <Copy className="h-3.5 w-3.5" />
+                              </button>
                               <Link
                                 href={`/edit/${product.id}`}
                                 className="p-1.5 rounded text-zinc-400 hover:text-white hover:bg-zinc-700"
