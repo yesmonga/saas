@@ -59,16 +59,40 @@ export default function SalesPage() {
         </div>
 
         <Card>
-          <CardHeader><CardTitle>Historique</CardTitle></CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
+          <CardHeader><CardTitle className="text-base md:text-lg">Historique</CardTitle></CardHeader>
+          <CardContent className="p-3 md:p-6">
+            {/* Mobile: card layout */}
+            <div className="space-y-3 md:hidden">
+              {sales.map((sale) => (
+                <div key={sale.id} className="p-3 rounded-lg bg-zinc-800/30 border border-zinc-800/50">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <span className="font-medium text-sm text-white truncate flex-1">
+                      {sale.product?.title || "Produit inconnu"}
+                    </span>
+                    <Badge variant="secondary" className="text-[10px] flex-shrink-0">{sale.platform}</Badge>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-zinc-500">{formatDate(sale.saleDate)}</span>
+                    <span className="text-zinc-400">{formatCurrency(sale.finalPrice)}</span>
+                  </div>
+                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-zinc-700/50">
+                    <span className="text-xs text-zinc-500">Bénéfice</span>
+                    <span className={`text-sm font-medium ${sale.netProfit >= 0 ? "text-green-500" : "text-red-500"}`}>
+                      {sale.netProfit >= 0 ? "+" : ""}{formatCurrency(sale.netProfit)}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Desktop: table layout */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-zinc-800">
                     <th className="text-left p-4 text-sm font-medium text-zinc-400">Produit</th>
                     <th className="text-left p-4 text-sm font-medium text-zinc-400">Date</th>
                     <th className="text-right p-4 text-sm font-medium text-zinc-400">Prix</th>
-                    <th className="text-right p-4 text-sm font-medium text-zinc-400">Frais</th>
                     <th className="text-right p-4 text-sm font-medium text-zinc-400">Bénéfice</th>
                     <th className="text-center p-4 text-sm font-medium text-zinc-400">Plateforme</th>
                   </tr>
@@ -79,9 +103,6 @@ export default function SalesPage() {
                       <td className="p-4 font-medium">{sale.product?.title || "Produit inconnu"}</td>
                       <td className="p-4 text-zinc-400">{formatDate(sale.saleDate)}</td>
                       <td className="p-4 text-right">{formatCurrency(sale.finalPrice)}</td>
-                      <td className="p-4 text-right text-zinc-400">
-                        {formatCurrency(sale.platformFees + sale.shippingCost)}
-                      </td>
                       <td className={`p-4 text-right font-medium ${sale.netProfit >= 0 ? "text-green-500" : "text-red-500"}`}>
                         {sale.netProfit >= 0 ? "+" : ""}{formatCurrency(sale.netProfit)}
                       </td>
@@ -92,10 +113,11 @@ export default function SalesPage() {
                   ))}
                 </tbody>
               </table>
-              {sales.length === 0 && (
-                <p className="text-center py-8 text-zinc-500">Aucune vente enregistrée</p>
-              )}
             </div>
+            
+            {sales.length === 0 && (
+              <p className="text-center py-8 text-zinc-500">Aucune vente enregistrée</p>
+            )}
           </CardContent>
         </Card>
       </div>

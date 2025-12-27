@@ -19,7 +19,7 @@ import {
   Plus,
   X,
 } from "lucide-react"
-import { formatCurrency, formatDate } from "@/lib/utils"
+import { formatCurrency } from "@/lib/utils"
 import { Product } from "@/types"
 import { useToast } from "@/hooks/use-toast"
 
@@ -320,28 +320,28 @@ export default function PokemonPage() {
               {/* Series Header */}
               <button
                 onClick={() => toggleSeries(group.series)}
-                className="w-full flex items-center justify-between p-4 hover:bg-zinc-800/50 transition-colors"
+                className="w-full flex items-center justify-between p-3 md:p-4 hover:bg-zinc-800/50 transition-colors gap-2"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
                   {group.isExpanded ? (
-                    <ChevronDown className="h-5 w-5 text-zinc-400" />
+                    <ChevronDown className="h-4 w-4 md:h-5 md:w-5 text-zinc-400 flex-shrink-0" />
                   ) : (
-                    <ChevronRight className="h-5 w-5 text-zinc-400" />
+                    <ChevronRight className="h-4 w-4 md:h-5 md:w-5 text-zinc-400 flex-shrink-0" />
                   )}
                   <div
-                    className="w-3 h-3 rounded-full"
+                    className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full flex-shrink-0"
                     style={{ backgroundColor: group.seriesData?.color || "#FFCB05" }}
                   />
-                  <span className="font-medium text-white">{group.series}</span>
+                  <span className="font-medium text-white text-sm md:text-base truncate">{group.series}</span>
                   {group.seriesData?.code && (
-                    <span className="text-xs text-zinc-500">({group.seriesData.code})</span>
+                    <span className="text-[10px] md:text-xs text-zinc-500 flex-shrink-0">({group.seriesData.code})</span>
                   )}
                 </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-sm text-zinc-400">
+                <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+                  <span className="text-xs md:text-sm text-zinc-400 hidden sm:block">
                     {formatCurrency(group.products.reduce((sum, p) => sum + p.purchasePrice, 0))}
                   </span>
-                  <span className="px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-500 text-sm font-medium">
+                  <span className="px-2 py-0.5 md:py-1 rounded-full bg-yellow-500/20 text-yellow-500 text-xs md:text-sm font-medium whitespace-nowrap">
                     {group.products.length} article{group.products.length > 1 ? "s" : ""}
                   </span>
                 </div>
@@ -350,72 +350,69 @@ export default function PokemonPage() {
               {/* Series Content */}
               {group.isExpanded && (
                 <div className="border-t border-zinc-800">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-zinc-800/50">
-                        <th className="text-left p-3 text-xs font-medium text-zinc-500">Produit</th>
-                        <th className="text-right p-3 text-xs font-medium text-zinc-500">Prix</th>
-                        <th className="text-right p-3 text-xs font-medium text-zinc-500">Date</th>
-                        <th className="text-right p-3 text-xs font-medium text-zinc-500">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {group.products.map((product) => (
-                        <tr
-                          key={product.id}
-                          className="border-b border-zinc-800/30 hover:bg-zinc-800/20"
-                        >
-                          <td className="p-3">
-                            <div className="flex items-center gap-3">
-                              <div className="h-8 w-8 rounded bg-zinc-800 flex items-center justify-center overflow-hidden flex-shrink-0">
-                                {getFirstPhoto(product.photos) ? (
-                                  <Image
-                                    src={getFirstPhoto(product.photos)!}
-                                    alt={product.title}
-                                    width={32}
-                                    height={32}
-                                    className="object-cover"
-                                  />
-                                ) : (
-                                  <Zap className="h-4 w-4 text-yellow-500/50" />
-                                )}
-                              </div>
-                              <span className="text-sm text-white">{product.title}</span>
-                            </div>
-                          </td>
-                          <td className="p-3 text-right text-yellow-500 text-sm font-medium">
+                  {/* Mobile: card layout / Desktop: hidden header */}
+                  <div className="hidden md:grid grid-cols-12 border-b border-zinc-800/50 px-3 py-2">
+                    <div className="col-span-6 text-xs font-medium text-zinc-500">Produit</div>
+                    <div className="col-span-2 text-right text-xs font-medium text-zinc-500">Prix</div>
+                    <div className="col-span-4 text-right text-xs font-medium text-zinc-500">Actions</div>
+                  </div>
+                  
+                  <div className="divide-y divide-zinc-800/30">
+                    {group.products.map((product) => (
+                      <div
+                        key={product.id}
+                        className="flex items-center gap-3 p-3 hover:bg-zinc-800/20"
+                      >
+                        {/* Product image */}
+                        <div className="h-10 w-10 rounded bg-zinc-800 flex items-center justify-center overflow-hidden flex-shrink-0">
+                          {getFirstPhoto(product.photos) ? (
+                            <Image
+                              src={getFirstPhoto(product.photos)!}
+                              alt={product.title}
+                              width={40}
+                              height={40}
+                              className="object-cover"
+                            />
+                          ) : (
+                            <Zap className="h-5 w-5 text-yellow-500/50" />
+                          )}
+                        </div>
+                        
+                        {/* Product info */}
+                        <div className="flex-1 min-w-0">
+                          <span className="block text-sm text-white truncate">{product.title}</span>
+                          <span className="text-sm font-medium text-yellow-500">
                             {formatCurrency(product.purchasePrice)}
-                          </td>
-                          <td className="p-3 text-right text-zinc-500 text-sm">
-                            {product.purchaseDate ? formatDate(product.purchaseDate) : "-"}
-                          </td>
-                          <td className="p-3 text-right">
-                            <div className="flex items-center justify-end gap-1">
-                              <button
-                                onClick={() => handleDuplicate(product.id)}
-                                className="p-1.5 rounded text-zinc-400 hover:text-green-400 hover:bg-green-500/10"
-                                title="Dupliquer"
-                              >
-                                <Copy className="h-3.5 w-3.5" />
-                              </button>
-                              <Link
-                                href={`/edit/${product.id}`}
-                                className="p-1.5 rounded text-zinc-400 hover:text-white hover:bg-zinc-700"
-                              >
-                                <Pencil className="h-3.5 w-3.5" />
-                              </Link>
-                              <button
-                                onClick={() => handleDelete(product.id)}
-                                className="p-1.5 rounded text-zinc-400 hover:text-red-400 hover:bg-red-500/10"
-                              >
-                                <Trash2 className="h-3.5 w-3.5" />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                          </span>
+                        </div>
+                        
+                        {/* Actions - always visible */}
+                        <div className="flex items-center gap-1 flex-shrink-0">
+                          <button
+                            onClick={() => handleDuplicate(product.id)}
+                            className="p-2 rounded text-zinc-400 hover:text-green-400 hover:bg-green-500/10"
+                            title="Dupliquer"
+                          >
+                            <Copy className="h-4 w-4" />
+                          </button>
+                          <Link
+                            href={`/edit/${product.id}`}
+                            className="p-2 rounded text-zinc-400 hover:text-white hover:bg-zinc-700"
+                            title="Modifier"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Link>
+                          <button
+                            onClick={() => handleDelete(product.id)}
+                            className="p-2 rounded text-zinc-400 hover:text-red-400 hover:bg-red-500/10"
+                            title="Supprimer"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </Card>

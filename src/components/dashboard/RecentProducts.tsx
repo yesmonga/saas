@@ -32,8 +32,8 @@ export function RecentProducts({ products }: RecentProductsProps) {
         </div>
       </div>
 
-      {/* Table Header */}
-      <div className="mb-2 grid grid-cols-12 gap-4 px-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
+      {/* Table Header - hidden on mobile */}
+      <div className="mb-2 hidden md:grid grid-cols-12 gap-4 px-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
         <div className="col-span-5">Produit</div>
         <div className="col-span-2">Catégorie</div>
         <div className="col-span-2 text-right">Prix</div>
@@ -46,27 +46,33 @@ export function RecentProducts({ products }: RecentProductsProps) {
           <Link
             key={product.id}
             href={`/edit/${product.id}`}
-            className="group grid grid-cols-12 items-center gap-4 rounded-lg px-3 py-2.5 transition-all hover:bg-zinc-800/50"
+            className="group flex md:grid md:grid-cols-12 items-center gap-3 md:gap-4 rounded-lg px-3 py-2.5 transition-all hover:bg-zinc-800/50"
           >
-            <div className="col-span-5 flex items-center gap-3 min-w-0">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-lg">
-                📦
-              </div>
-              <span className="truncate text-sm font-medium text-white group-hover:text-violet-400">
+            {/* Mobile: row layout / Desktop: grid */}
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-lg">
+              📦
+            </div>
+            <div className="flex-1 md:col-span-5 md:flex md:items-center md:gap-3 min-w-0">
+              <span className="block truncate text-sm font-medium text-white group-hover:text-violet-400">
                 {product.title}
               </span>
+              {/* Mobile: category under title */}
+              <span className="block md:hidden text-xs text-zinc-500 truncate">{product.category}</span>
             </div>
-            <div className="col-span-2">
+            {/* Desktop only: category column */}
+            <div className="hidden md:block md:col-span-2">
               <span className="text-xs text-zinc-500">{product.category}</span>
             </div>
-            <div className="col-span-2 text-right">
+            {/* Price - always visible */}
+            <div className="text-right md:col-span-2 shrink-0">
               <span className="text-sm font-medium text-white">
                 {formatCurrency(product.sellingPrice)}
               </span>
             </div>
-            <div className="col-span-3 flex justify-end">
+            {/* Status badge */}
+            <div className="md:col-span-3 flex justify-end shrink-0">
               <span className={cn(
-                "rounded-full px-2.5 py-1 text-xs font-medium",
+                "rounded-full px-2 py-0.5 md:px-2.5 md:py-1 text-[10px] md:text-xs font-medium whitespace-nowrap",
                 product.status === "in_stock" && "bg-emerald-500/10 text-emerald-400",
                 product.status === "sold" && "bg-blue-500/10 text-blue-400",
                 product.status === "listed" && "bg-amber-500/10 text-amber-400",

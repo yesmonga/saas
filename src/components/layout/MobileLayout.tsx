@@ -233,7 +233,7 @@ export function MobileLayout({ children }: MobileLayoutProps) {
       {/* Main Content */}
       <main className={cn(
         "min-h-screen bg-[#0a0a0a]",
-        "pt-14 pb-20 md:pt-0 md:pb-0", // Mobile: padding for header and bottom nav
+        "pt-14 pb-28 md:pt-0 md:pb-0", // Mobile: padding for header and bottom nav (pb-28 = 112px)
         "md:ml-64" // Desktop: margin for sidebar
       )}>
         {children}
