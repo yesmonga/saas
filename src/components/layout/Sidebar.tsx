@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import {
   LayoutDashboard,
@@ -15,26 +15,43 @@ import {
   Search,
   ChevronDown,
   Sparkles,
+  Zap,
 } from "lucide-react"
 
 const mainNav = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Inventaire", href: "/inventory", icon: Package },
+  { name: "Pokémon", href: "/pokemon", icon: Zap },
   { name: "Ajouter", href: "/add", icon: Plus },
   { name: "Ventes", href: "/sales", icon: ShoppingCart },
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
 ]
 
-const categories = [
-  { name: "Pokemon", color: "#FFCB05" },
-  { name: "Pop Mart", color: "#FF6B9D" },
-  { name: "Sneakers", color: "#4ECDC4" },
-  { name: "Figurines", color: "#9B59B6" },
-]
+interface Category {
+  id: string
+  name: string
+  color: string
+}
 
 export function Sidebar() {
   const pathname = usePathname()
   const [categoriesOpen, setCategoriesOpen] = useState(true)
+  const [categories, setCategories] = useState<Category[]>([])
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/categories")
+        if (res.ok) {
+          const data = await res.json()
+          setCategories(data)
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories:", error)
+      }
+    }
+    fetchCategories()
+  }, [])
 
   return (
     <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-zinc-800/50 bg-[#0a0a0a]">

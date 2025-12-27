@@ -148,11 +148,22 @@ const salesData = [
 ]
 
 const stockProducts = [
+  // Pokemon
   { title: "Coffret Pokémon Super-Premium EV8.5 Évolutions Prismatiques", purchasePrice: 119, category: "Pokemon", purchaseDate: "2025-05-22", dateHome: "2025-09-29" },
   { title: "Coffret Pokémon Super-Premium EV8.5 Évolutions Prismatiques", purchasePrice: 130, category: "Pokemon", purchaseDate: "2025-05-22", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
+  
+  // Pop Mart
   { title: "Pop Mart - MOLLY – Peekaboo", purchasePrice: 72, category: "Pop Mart", purchaseDate: "2025-06-12", dateHome: "2025-09-29" },
-  { title: "ASICS SportStyle GEL-1130 GS Pink", purchasePrice: 68, category: "Sneakers", purchaseDate: "2025-06-13", dateHome: "2025-09-29" },
-  { title: "Pop Mart Cry x1 boite", purchasePrice: 16.80, category: "Pop Mart", purchaseDate: "2025-06-22", dateHome: "2025-09-29" },
   { title: "Pop Mart Cry x1 boite", purchasePrice: 16.80, category: "Pop Mart", purchaseDate: "2025-06-22", dateHome: "2025-09-29" },
   { title: "Pop Mart Cry Whole Set", purchasePrice: 100.80, category: "Pop Mart", purchaseDate: "2025-06-22", dateHome: "2025-09-29" },
   { title: "Pop Mart Cry Whole Set", purchasePrice: 100.80, category: "Pop Mart", purchaseDate: "2025-06-22", dateHome: "2025-09-29" },
@@ -186,39 +197,44 @@ const stockProducts = [
   { title: "Pop Mart Fall in Wild", purchasePrice: 28.80, category: "Pop Mart", purchaseDate: "2025-07-05", dateHome: "2025-09-29" },
   { title: "Pop Mart Fall in Wild", purchasePrice: 28.80, category: "Pop Mart", purchaseDate: "2025-07-05", dateHome: "2025-09-29" },
   { title: "Pop Mart Hacipupu Whole Box", purchasePrice: 137, category: "Pop Mart", purchaseDate: "2025-07-05", dateHome: "2025-09-29" },
-  { title: "New Balance 740 Creme 37", purchasePrice: 90, category: "Sneakers", purchaseDate: "2025-07-06", dateHome: "2025-09-29" },
-  { title: "Pop Mart - Exciting Macaron Whole Box", purchasePrice: 120, category: "Pop Mart", purchaseDate: "2025-07-07", dateHome: "2025-09-29" },
   { title: "Pop Mart - Exciting Macaron Whole Box", purchasePrice: 120, category: "Pop Mart", purchaseDate: "2025-07-07", dateHome: "2025-09-29" },
   { title: "Pop Mart - Exciting Macaron Whole Box", purchasePrice: 120, category: "Pop Mart", purchaseDate: "2025-07-07", dateHome: "2025-09-29" },
   { title: "Pop Mart - Exciting Macaron Whole Box", purchasePrice: 120, category: "Pop Mart", purchaseDate: "2025-07-07", dateHome: "2025-09-29" },
   { title: "Pop Mart Hirono Living", purchasePrice: 32.40, category: "Pop Mart", purchaseDate: "2025-07-09", dateHome: "2025-09-29" },
   { title: "Pop Mart Hirono Living", purchasePrice: 32.40, category: "Pop Mart", purchaseDate: "2025-07-09", dateHome: "2025-09-29" },
-  { title: "Disney Lorcana: The First Chapter Booster Display", purchasePrice: 144, category: "Lorcana", purchaseDate: "2025-07-10", dateHome: "2025-09-29" },
-  { title: "Disney Lorcana: The First Chapter Booster Display", purchasePrice: 144, category: "Lorcana", purchaseDate: "2025-07-10", dateHome: "2025-09-29" },
-  { title: "KAWS Chul-Su Figure (Coloured)", purchasePrice: 460, category: "Figurines & Collectibles", purchaseDate: "2025-07-13", dateHome: "2025-09-29" },
-  { title: "Salomon xt 6 white fairy tale almond milk", purchasePrice: 100.76, category: "Sneakers", purchaseDate: "2025-07-13", dateHome: "2025-09-29" },
-  { title: "adidas Originals x ASOS - Veste de survêtement Fleur", purchasePrice: 145.99, category: "Vêtements", purchaseDate: "2025-07-18", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Noir", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "ETB Flamme Blanche", purchasePrice: 55.99, category: "Pokemon", purchaseDate: "2025-07-23", dateHome: "2025-09-29" },
-  { title: "New Balance Purple 740CG2", purchasePrice: 78, category: "Sneakers", purchaseDate: "2025-07-25", dateHome: "2025-09-29" },
+  
+  // Sneakers (avec pointures)
+  { title: "Salomon xt 6 white fairy tale almond milk", purchasePrice: 100.76, category: "Sneakers", subcategory: "43 1/3", purchaseDate: "2025-07-13", dateHome: "2025-09-29" },
+  { title: "New Balance Purple 740CG2", purchasePrice: 78, category: "Sneakers", subcategory: "39.5", purchaseDate: "2025-07-25", dateHome: "2025-09-29" },
   { title: "Salomon xt-6 ghost gray", purchasePrice: 104, category: "Sneakers", purchaseDate: "2025-08-11", dateHome: "2025-09-29" },
   { title: "Salomon Sportstyle XT-6 GTX Carbon Vanilla Ice", purchasePrice: 100, category: "Sneakers", purchaseDate: "2025-08-11", dateHome: "2025-09-29" },
+  
+  // Lorcana
+  { title: "Disney Lorcana: The First Chapter Booster Display", purchasePrice: 144, category: "Lorcana", purchaseDate: "2025-07-10", dateHome: "2025-09-29" },
+  { title: "Disney Lorcana: The First Chapter Booster Display", purchasePrice: 144, category: "Lorcana", purchaseDate: "2025-07-10", dateHome: "2025-09-29" },
+  
+  // Accessoires
+  { title: "KAWS Chul-Su Figure (Coloured)", purchasePrice: 460, category: "Accessoires", purchaseDate: "2025-07-13", dateHome: "2025-09-29" },
+  { title: "adidas Originals x ASOS - Veste de survêtement Fleur", purchasePrice: 145.99, category: "Vêtements", subcategory: "S", purchaseDate: "2025-07-18", dateHome: "2025-09-29" },
   { title: "United States Mint – 250th Anniversary United States Navy", purchasePrice: 110, category: "Accessoires", purchaseDate: "2025-10-29", dateHome: "2025-10-29" },
-  { title: "Monster High Skullector The Shining Grady Twins", purchasePrice: 105, category: "Figurines & Collectibles", purchaseDate: "2025-11-16", dateHome: null },
   { title: "Ensemble de pin's Winnie l'Ourson et Éfélant", purchasePrice: 35, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: "2025-11-18" },
   { title: "Folklore Album Cardigan Plush Cat", purchasePrice: 49, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
   { title: "Folklore Album Cardigan Plush Cat", purchasePrice: 49, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
   { title: "Folklore Album Cardigan Plush Cat", purchasePrice: 49, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
   { title: "The Life of a Showgirl Vinyl Case", purchasePrice: 103, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
-  { title: "The Life of a Showgirl Vinyl Case", purchasePrice: 103, category: "Accessoires", purchaseDate: "2025-11-16", dateHome: null },
+  { title: "Magic The Gathering Chocobo Bundle Final Fantasy", purchasePrice: 114.99, category: "Accessoires", purchaseDate: "2025-12-24", dateHome: "2025-12-26" },
+  { title: "Yzma – The Emperor's New Groove 25th Anniversary", purchasePrice: 134, category: "Accessoires", purchaseDate: "2025-12-24", dateHome: null },
+  
+  // Mattel
+  { title: "Monster High Skullector The Shining Grady Twins", purchasePrice: 105, category: "Mattel", purchaseDate: "2025-11-16", dateHome: null },
+  { title: "UNO Canvas Billie Eilish", purchasePrice: 25, category: "Mattel", purchaseDate: "2025-12-24", dateHome: null },
+  { title: "UNO Canvas Billie Eilish", purchasePrice: 25, category: "Mattel", purchaseDate: "2025-12-24", dateHome: null },
+  { title: "Monster High Skullector – Edward Scissorhands Doll", purchasePrice: 72, category: "Mattel", purchaseDate: "2025-12-24", dateHome: null },
+  { title: "Monster High Skullector – Edward Scissorhands Doll", purchasePrice: 72, category: "Mattel", purchaseDate: "2025-12-24", dateHome: null },
+  
+  // Funko
+  { title: "FUNKO POP! - IRON MAN", purchasePrice: 30, category: "Funko", purchaseDate: "2025-12-24", dateHome: null },
+  { title: "FUNKO POP! ED LIMITEE SUPREME - ONE PIECE - Sanji WCI", purchasePrice: 24.99, category: "Funko", purchaseDate: "2025-12-24", dateHome: null },
 ]
 
 async function main() {
@@ -232,16 +248,15 @@ async function main() {
 
   // Create categories
   const categories = [
-    { name: "Pokemon", color: "#FFCB05" },
-    { name: "Pop Mart", color: "#FF6B9D" },
-    { name: "Sneakers", color: "#4ECDC4" },
-    { name: "Figurines & Collectibles", color: "#9B59B6" },
-    { name: "Vêtements", color: "#3498DB" },
-    { name: "Lorcana", color: "#1ABC9C" },
-    { name: "Accessoires", color: "#E67E22" },
-    { name: "Trading Cards", color: "#F39C12" },
-    { name: "Mattel", color: "#E74C3C" },
-    { name: "Autres", color: "#95A5A6" },
+    { name: "Pokemon", color: "#FFCB05", icon: "pokemon" },
+    { name: "Pop Mart", color: "#FF6B9D", icon: "toy" },
+    { name: "Sneakers", color: "#4ECDC4", icon: "shoe" },
+    { name: "Lorcana", color: "#1ABC9C", icon: "cards" },
+    { name: "Mattel", color: "#E74C3C", icon: "doll" },
+    { name: "Funko", color: "#9B59B6", icon: "figure" },
+    { name: "Accessoires", color: "#E67E22", icon: "accessory" },
+    { name: "Vêtements", color: "#3498DB", icon: "clothing" },
+    { name: "Autres", color: "#95A5A6", icon: "box" },
   ]
 
   for (const cat of categories) {
@@ -258,6 +273,7 @@ async function main() {
         totalCost: product.purchasePrice,
         sellingPrice: Math.round(product.purchasePrice * 1.4),
         category: product.category,
+        subcategory: (product as { subcategory?: string }).subcategory || null,
         status: "in_stock",
         condition: "new_with_tags",
         purchaseDate: product.purchaseDate ? new Date(product.purchaseDate) : null,
